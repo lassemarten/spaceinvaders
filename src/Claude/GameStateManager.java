@@ -83,6 +83,14 @@ public class GameStateManager {
             Bullet b = bi.next();
 
             if (b.getOwner() == Bullet.Owner.PLAYER) {
+                for(Bullet bul : bullets) {
+                    if(b.collidesWith(bul) && bul.getOwner() == Bullet.Owner.INVADER){
+                        bul.setActive(false);
+                        b.setActive(false);
+                        break;
+                    }
+                }
+
                 // Spieler-Kugel trifft Invasor
                 for (Invader inv : swarm.getActive()) {
                     if (b.collidesWith(inv)) {
