@@ -14,6 +14,7 @@ public record GameState(
     Player       player,
     InvaderSwarm swarm,
     List<Bullet> bullets,
+    int level,
     int          score,
     Phase        phase
 ) {

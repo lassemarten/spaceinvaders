@@ -30,8 +30,8 @@ public class GameRenderer {
 
         switch (state.phase()) {
             case PLAYING  -> renderGame(g2, state);
-            case GAME_OVER -> renderOverlay(g2, "GAME OVER", Color.RED,   state.score());
-            case WON       -> renderOverlay(g2, "GEWONNEN!", Color.GREEN,  state.score());
+            case GAME_OVER -> renderOverlay(g2, "GAME OVER", Color.RED, state.level(),   state.score());
+            case WON       -> renderOverlay(g2, "GEWONNEN!", Color.GREEN, state.level(),  state.score());  //Gibts Momentan nicht
         }
     }
 
@@ -91,8 +91,9 @@ public class GameRenderer {
     private void renderHUD(Graphics2D g2, GameState state) {
         g2.setColor(COLOR_HUD);
         g2.setFont(FONT_HUD);
-        g2.drawString("Punkte: " + state.score(), 20, 30);
-        g2.drawString("Invasoren: " + state.swarm().getActive().size(), 20, 55);
+        g2.drawString("Level:" + state.level(), 20, 30);
+        g2.drawString("Punkte: " + state.score(), 20, 55);
+        g2.drawString("Invasoren: " + state.swarm().getActive().size(), 20, 80);
 
         g2.setColor(COLOR_HINT);
         g2.setFont(FONT_HINT);
@@ -105,7 +106,7 @@ public class GameRenderer {
     // Overlay (Game Over / Won)
     // -------------------------------------------------------------------------
 
-    private void renderOverlay(Graphics2D g2, String title, Color titleColor, int score) {
+    private void renderOverlay(Graphics2D g2, String title, Color titleColor,int level, int score) {
         int cx = Constants.SCREEN_WIDTH / 2;
         int cy = Constants.SCREEN_HEIGHT / 2;
 
@@ -115,11 +116,15 @@ public class GameRenderer {
 
         g2.setColor(COLOR_HUD);
         g2.setFont(FONT_SCORE);
-        drawCentered(g2, "Punkte: " + score, cx, cy + 20);
+        drawCentered(g2, "Level: " + level, cx, cy + 20);
+
+        g2.setColor(COLOR_HUD);
+        g2.setFont(FONT_SCORE);
+        drawCentered(g2, "Punkte: " + score, cx, cy + 65);
 
         g2.setColor(COLOR_HINT);
         g2.setFont(FONT_HINT);
-        drawCentered(g2, "ENTER zum Neustart", cx, cy + 65);
+        drawCentered(g2, "ENTER zum Neustart", cx, cy + 110);
     }
 
     // -------------------------------------------------------------------------

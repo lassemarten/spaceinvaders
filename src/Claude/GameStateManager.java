@@ -22,6 +22,7 @@ public class GameStateManager {
     private Player       player;
     private InvaderSwarm swarm;
     private List<Bullet> bullets;
+    private int level;
     private int          score;
     private GameState.Phase phase;
 
@@ -48,7 +49,7 @@ public class GameStateManager {
     }
 
     public GameState getCurrentState() {
-        return new GameState(player, swarm, List.copyOf(bullets), score, phase);
+        return new GameState(player, swarm, List.copyOf(bullets), level, score, phase);
     }
 
     // -------------------------------------------------------------------------
@@ -87,6 +88,7 @@ public class GameStateManager {
                     if(b.collidesWith(bul) && bul.getOwner() == Bullet.Owner.INVADER){
                         bul.setActive(false);
                         b.setActive(false);
+                        score += de.game.util.Constants.SCORE_PER_BULLET_ON_BULLET;
                         break;
                     }
                 }
@@ -115,6 +117,7 @@ public class GameStateManager {
             player  = new Player();
             swarm   = new InvaderSwarm();
             bullets = new ArrayList<>();
+            level  += 1;
             phase   = GameState.Phase.PLAYING;
         } else if (swarm.hasReachedBottom()) {
             phase = GameState.Phase.GAME_OVER;
@@ -125,6 +128,7 @@ public class GameStateManager {
         player  = new Player();
         swarm   = new InvaderSwarm();
         bullets = new ArrayList<>();
+        level   = 1;
         score   = 0;
         phase   = GameState.Phase.PLAYING;
     }
