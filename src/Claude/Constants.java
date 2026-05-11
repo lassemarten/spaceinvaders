@@ -21,8 +21,8 @@ public final class Constants {
     public static final int PLAYER_Y       = SCREEN_HEIGHT - 70;
 
     // Kugeln
-    public static final int BULLET_WIDTH        = 15;
-    public static final int BULLET_HEIGHT       = 15;
+    public static final int BULLET_WIDTH        = 20;
+    public static final int BULLET_HEIGHT       = 20;
     public static final int BULLET_SPEED        = 8;
     public static final int INVADER_BULLET_SPEED = 4;
 
