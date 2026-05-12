@@ -73,8 +73,20 @@ public class GameStateManager {
             return;
         }
 
-        if (input.isLeft())  player.moveLeft();
-        if (input.isRight()) player.moveRight();
+        if (input.isLeft()) {
+            if (input.dash()){
+                player.dashLeft();
+            }else {
+                player.moveLeft();
+            }
+        }
+        if (input.isRight()){
+            if (input.dash()){
+                player.dashRight();
+            }else {
+                player.moveRight();
+            }
+        }
 
         boolean noPlayerBullet = bullets.stream()
             .noneMatch(b -> b.getOwner() == Bullet.Owner.PLAYER && b.isActive());

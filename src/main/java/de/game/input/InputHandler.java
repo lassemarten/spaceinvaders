@@ -14,15 +14,17 @@ public class InputHandler extends KeyAdapter {
     private boolean shootPressed;   // true für einen Frame
     private boolean restartPressed; // true für einen Frame
     private boolean escapePressed;
+    private boolean dashPressed;
 
     @Override
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_LEFT,  KeyEvent.VK_A -> left  = true;
             case KeyEvent.VK_RIGHT, KeyEvent.VK_D -> right = true;
-            case KeyEvent.VK_SPACE -> shootPressed   = true;
-            case KeyEvent.VK_ENTER -> restartPressed = true;
+            case KeyEvent.VK_SPACE  -> shootPressed   = true;
+            case KeyEvent.VK_ENTER  -> restartPressed = true;
             case KeyEvent.VK_ESCAPE -> escapePressed = true;
+            case KeyEvent.VK_SHIFT  -> dashPressed = true;
         }
     }
 
@@ -53,6 +55,11 @@ public class InputHandler extends KeyAdapter {
     public boolean consumeEscape() {
         boolean v = escapePressed;
         escapePressed = false;
+        return v;
+    }
+    public boolean dash(){
+        boolean v = dashPressed;
+        dashPressed = false;
         return v;
     }
 

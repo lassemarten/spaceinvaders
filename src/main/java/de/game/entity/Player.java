@@ -25,6 +25,14 @@ public class Player extends Entity {
         x = Math.min(Constants.SCREEN_WIDTH - width, x + Constants.PLAYER_SPEED);
     }
 
+    public void dashLeft(){
+        x = Math.max(0, x - Constants.PLAYER_SPEED*20);
+    }
+
+    public void dashRight(){
+        x = Math.min(Constants.SCREEN_WIDTH - width, x + Constants.PLAYER_SPEED*20);
+    }
+
     public Bullet shoot() {
         int bulletX = x + width / 2 - Constants.BULLET_WIDTH / 2;
         int bulletY = y - Constants.BULLET_HEIGHT;
