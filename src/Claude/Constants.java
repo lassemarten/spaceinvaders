@@ -8,8 +8,8 @@ public final class Constants {
     private Constants() {}
 
     // Fenster
-    public static final int SCREEN_WIDTH  = 800;
-    public static final int SCREEN_HEIGHT = 600;
+    public static final int SCREEN_WIDTH  = 900;
+    public static final int SCREEN_HEIGHT = 675;
     public static final String TITLE      = "Space Invaders";
     public static final int TARGET_FPS    = 60;
     public static final int FRAME_TIME_MS = 1000 / TARGET_FPS;
@@ -21,7 +21,7 @@ public final class Constants {
     public static final int PLAYER_Y       = SCREEN_HEIGHT - 70;
 
     // Kugeln
-    public static final int BULLET_WIDTH        = 20;
+    public static final int BULLET_WIDTH        = 18;
     public static final int BULLET_HEIGHT       = 20;
     public static final int BULLET_SPEED        = 8;
     public static final int INVADER_BULLET_SPEED = 4;

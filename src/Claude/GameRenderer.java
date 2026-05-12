@@ -84,7 +84,7 @@ public class GameRenderer {
     private void renderBullets(Graphics2D g2, GameState state) {
         for (Bullet b : state.bullets()) {
             g2.setColor(b.getOwner() == Bullet.Owner.PLAYER ? COLOR_BULLET_P : COLOR_BULLET_I);
-            g2.fillRoundRect(b.getX(), b.getY(), b.getWidth(), b.getHeight(), 3, 3);
+            g2.fillRoundRect(b.getX(), b.getY(), b.getWidth(), b.getHeight(), b.getWidth(), b.getHeight());
         }
     }
 
