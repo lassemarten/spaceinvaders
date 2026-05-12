@@ -18,5 +18,5 @@ public record GameState(
     int          score,
     Phase        phase
 ) {
-    public enum Phase { PLAYING, GAME_OVER, WON }
+    public enum Phase { PLAYING, GAME_OVER, WON, PAUSED }
 }

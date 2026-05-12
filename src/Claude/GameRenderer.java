@@ -32,6 +32,7 @@ public class GameRenderer {
             case PLAYING  -> renderGame(g2, state);
             case GAME_OVER -> renderOverlay(g2, "GAME OVER", Color.RED, state.level(),   state.score());
             case WON       -> renderOverlay(g2, "GEWONNEN!", Color.GREEN, state.level(),  state.score());  //Gibts Momentan nicht
+            case PAUSED    -> renderOverlay(g2, "PAUSED", Color.WHITE, state.level(),   state.score());
         }
     }
 

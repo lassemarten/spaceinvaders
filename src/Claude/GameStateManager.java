@@ -36,12 +36,18 @@ public class GameStateManager {
     // -------------------------------------------------------------------------
 
     public void update(long deltaMs) {
-        if (phase != GameState.Phase.PLAYING) {
+        if (phase == GameState.Phase.GAME_OVER) {
             if (input.consumeRestart()) reset();
             return;
         }
 
         handleInput();
+
+        if (phase == GameState.Phase.PAUSED) {
+            if (input.consumeRestart()) phase = GameState.Phase.PLAYING;
+            return;
+        }
+
         updateBullets();
         handleInvaderUpdate();
         checkCollisions();
@@ -57,6 +63,11 @@ public class GameStateManager {
     // -------------------------------------------------------------------------
 
     private void handleInput() {
+        if (input.consumeEscape()){
+            phase = GameState.Phase.PAUSED;
+            return;
+        }
+
         if (input.isLeft())  player.moveLeft();
         if (input.isRight()) player.moveRight();
 

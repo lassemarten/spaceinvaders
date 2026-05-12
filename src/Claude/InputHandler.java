@@ -13,6 +13,7 @@ public class InputHandler extends KeyAdapter {
     private boolean right;
     private boolean shootPressed;   // true für einen Frame
     private boolean restartPressed; // true für einen Frame
+    private boolean escapePressed;
 
     @Override
     public void keyPressed(KeyEvent e) {
@@ -21,6 +22,7 @@ public class InputHandler extends KeyAdapter {
             case KeyEvent.VK_RIGHT, KeyEvent.VK_D -> right = true;
             case KeyEvent.VK_SPACE -> shootPressed   = true;
             case KeyEvent.VK_ENTER -> restartPressed = true;
+            case KeyEvent.VK_ESCAPE -> escapePressed = true;
         }
     }
 
@@ -48,4 +50,10 @@ public class InputHandler extends KeyAdapter {
         restartPressed = false;
         return v;
     }
+    public boolean consumeEscape() {
+        boolean v = escapePressed;
+        escapePressed = false;
+        return v;
+    }
+
 }
