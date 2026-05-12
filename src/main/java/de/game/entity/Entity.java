@@ -1,4 +1,4 @@
-package de.game.entity;
+package main.java.de.game.entity;
 
 import java.awt.*;
 

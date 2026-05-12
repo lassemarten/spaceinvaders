@@ -1,8 +1,8 @@
-package de.game.state;
+package main.java.de.game.state;
 
-import de.game.entity.Bullet;
-import de.game.entity.InvaderSwarm;
-import de.game.entity.Player;
+import main.java.de.game.entity.Bullet;
+import main.java.de.game.entity.InvaderSwarm;
+import main.java.de.game.entity.Player;
 
 import java.util.List;
 

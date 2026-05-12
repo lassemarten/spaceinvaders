@@ -1,4 +1,4 @@
-package de.game.util;
+package main.java.de.game.util;
 
 /**
  * Zentrale Spielkonstanten – alle Magic Numbers an einem Ort.

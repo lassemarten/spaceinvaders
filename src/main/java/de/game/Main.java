@@ -1,6 +1,6 @@
-package de.game;
+package main.java.de.game;
 
-import de.game.core.Game;
+import main.java.de.game.core.Game;
 
 import javax.swing.*;
 

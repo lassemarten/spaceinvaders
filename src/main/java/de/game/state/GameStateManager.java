@@ -1,10 +1,10 @@
-package de.game.state;
+package main.java.de.game.state;
 
-import de.game.entity.Bullet;
-import de.game.entity.Invader;
-import de.game.entity.InvaderSwarm;
-import de.game.entity.Player;
-import de.game.input.InputHandler;
+import main.java.de.game.entity.Bullet;
+import main.java.de.game.entity.Invader;
+import main.java.de.game.entity.InvaderSwarm;
+import main.java.de.game.entity.Player;
+import main.java.de.game.input.InputHandler;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -99,7 +99,7 @@ public class GameStateManager {
                     if(b.collidesWith(bul) && bul.getOwner() == Bullet.Owner.INVADER){
                         bul.setActive(false);
                         b.setActive(false);
-                        score += de.game.util.Constants.SCORE_PER_BULLET_ON_BULLET;
+                        score += main.java.de.game.util.Constants.SCORE_PER_BULLET_ON_BULLET;
                         break;
                     }
                 }
@@ -109,7 +109,7 @@ public class GameStateManager {
                     if (b.collidesWith(inv)) {
                         inv.setActive(false);
                         b.setActive(false);
-                        score += de.game.util.Constants.SCORE_PER_KILL;
+                        score += main.java.de.game.util.Constants.SCORE_PER_KILL;
                         break;
                     }
                 }

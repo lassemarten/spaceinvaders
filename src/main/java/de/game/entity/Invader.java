@@ -1,6 +1,6 @@
-package de.game.entity;
+package main.java.de.game.entity;
 
-import de.game.util.Constants;
+import main.java.de.game.util.Constants;
 
 /**
  * Ein einzelner Invasor.

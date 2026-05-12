@@ -1,10 +1,10 @@
-package de.game.renderer;
+package main.java.de.game.renderer;
 
-import de.game.entity.Bullet;
-import de.game.entity.Invader;
-import de.game.entity.Player;
-import de.game.state.GameState;
-import de.game.util.Constants;
+import main.java.de.game.entity.Bullet;
+import main.java.de.game.entity.Invader;
+import main.java.de.game.entity.Player;
+import main.java.de.game.state.GameState;
+import main.java.de.game.util.Constants;
 
 import java.awt.*;
 
