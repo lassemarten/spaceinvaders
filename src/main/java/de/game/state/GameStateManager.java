@@ -22,13 +22,14 @@ public class GameStateManager {
     private Player       player;
     private InvaderSwarm swarm;
     private List<Bullet> bullets;
-    private int level;
+    private int          level;
     private int          score;
     private GameState.Phase phase;
 
     public GameStateManager(InputHandler input) {
         this.input = input;
         reset();
+        phase = GameState.Phase.START;
     }
 
     // -------------------------------------------------------------------------
@@ -36,6 +37,10 @@ public class GameStateManager {
     // -------------------------------------------------------------------------
 
     public void update(long deltaMs) {
+        if (phase == GameState.Phase.START) {
+            if(input.consumeRestart()) reset();
+            return;
+        }
         if (phase == GameState.Phase.GAME_OVER) {
             if (input.consumeRestart()) reset();
             return;

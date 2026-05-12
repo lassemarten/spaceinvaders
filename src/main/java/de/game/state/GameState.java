@@ -14,9 +14,9 @@ public record GameState(
     Player       player,
     InvaderSwarm swarm,
     List<Bullet> bullets,
-    int level,
+    int          level,
     int          score,
     Phase        phase
 ) {
-    public enum Phase { PLAYING, GAME_OVER, WON, PAUSED }
+    public enum Phase { PLAYING, GAME_OVER, WON, PAUSED, START }
 }

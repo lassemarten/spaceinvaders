@@ -29,10 +29,11 @@ public class GameRenderer {
         enableAntialiasing(g2);
 
         switch (state.phase()) {
-            case PLAYING  -> renderGame(g2, state);
-            case GAME_OVER -> renderOverlay(g2, "GAME OVER", Color.RED, state.level(),   state.score());
-            case WON       -> renderOverlay(g2, "GEWONNEN!", Color.GREEN, state.level(),  state.score());  //Gibts Momentan nicht
-            case PAUSED    -> renderOverlay(g2, "PAUSED", Color.WHITE, state.level(),   state.score());
+            case PLAYING   -> renderGame(g2, state);
+            case GAME_OVER -> renderOverlay(g2, "VERLOREN!", "ENTER zum Neustart", Color.RED, state.level(),   state.score());
+            case WON       -> renderOverlay(g2, "GEWONNEN!", "ENTER zum Neustart", Color.GREEN, state.level(),  state.score());  //Gibts Momentan nicht
+            case PAUSED    -> renderOverlay(g2, "PAUSIERT!","ENTER zum Fortsetzen", Color.WHITE, state.level(),   state.score());
+            case START     -> renderOverlay(g2, "HALLO SPIELER*IN", "ENTER zum Spielen", Color.PINK, 1,   0);
         }
     }
 
@@ -98,16 +99,16 @@ public class GameRenderer {
 
         g2.setColor(COLOR_HINT);
         g2.setFont(FONT_HINT);
-        String hint = "A/← → Bewegen   LEERTASTE Schießen";
+        String hint = "← → Bewegen   LEERTASTE Schießen   ESC Pausieren";
         FontMetrics fm = g2.getFontMetrics();
         g2.drawString(hint, (Constants.SCREEN_WIDTH - fm.stringWidth(hint)) / 2, Constants.SCREEN_HEIGHT - 10);
     }
 
     // -------------------------------------------------------------------------
-    // Overlay (Game Over / Won)
+    // Overlay (Game Over / Won / PAUSED / START)
     // -------------------------------------------------------------------------
 
-    private void renderOverlay(Graphics2D g2, String title, Color titleColor,int level, int score) {
+    private void renderOverlay(Graphics2D g2, String title, String untertitle, Color titleColor,int level, int score) {
         int cx = Constants.SCREEN_WIDTH / 2;
         int cy = Constants.SCREEN_HEIGHT / 2;
 
@@ -125,7 +126,7 @@ public class GameRenderer {
 
         g2.setColor(COLOR_HINT);
         g2.setFont(FONT_HINT);
-        drawCentered(g2, "ENTER zum Neustart", cx, cy + 110);
+        drawCentered(g2, untertitle, cx, cy + 110);
     }
 
     // -------------------------------------------------------------------------
