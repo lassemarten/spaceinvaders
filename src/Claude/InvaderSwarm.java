@@ -18,15 +18,15 @@ public class InvaderSwarm {
     private int  dx        = Constants.INVADER_SPEED;
     private int  shootTick = 0;
 
-    public InvaderSwarm() {
-        reset();
+    public InvaderSwarm(int level) {
+        reset(level);
     }
 
-    public void reset() {
+    public void reset(int level) {
         invaders.clear();
         dx = Constants.INVADER_SPEED;
         shootTick = 0;
-        for (int row = 0; row < Constants.INVADER_ROWS; row++) {
+        for (int row = 0; row < Math.floor(Constants.INVADER_ROWS + Math.pow((1.25 * (level-1)),0.5)); row++) { // Rechnung unschön verbaut
             for (int col = 0; col < Constants.INVADER_COLS; col++) {
                 int x = Constants.INVADER_START_X + col * (Constants.INVADER_WIDTH  + Constants.INVADER_H_GAP);
                 int y = Constants.INVADER_START_Y + row * (Constants.INVADER_HEIGHT + Constants.INVADER_V_GAP);

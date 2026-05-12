@@ -115,7 +115,7 @@ public class GameStateManager {
     private void checkWinLoss() {
         if (swarm.isEmpty()) {
             player  = new Player();
-            swarm   = new InvaderSwarm();
+            swarm   = new InvaderSwarm(level);
             bullets = new ArrayList<>();
             level  += 1;
             phase   = GameState.Phase.PLAYING;
@@ -125,10 +125,10 @@ public class GameStateManager {
     }
 
     private void reset() {
+        level   =1;
         player  = new Player();
-        swarm   = new InvaderSwarm();
+        swarm   = new InvaderSwarm(level);
         bullets = new ArrayList<>();
-        level   = 1;
         score   = 0;
         phase   = GameState.Phase.PLAYING;
     }
