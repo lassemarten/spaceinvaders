@@ -114,10 +114,10 @@ public class GameStateManager {
 
     private void checkWinLoss() {
         if (swarm.isEmpty()) {
+            level  += 1;
             player  = new Player();
             swarm   = new InvaderSwarm(level);
             bullets = new ArrayList<>();
-            level  += 1;
             phase   = GameState.Phase.PLAYING;
         } else if (swarm.hasReachedBottom()) {
             phase = GameState.Phase.GAME_OVER;
