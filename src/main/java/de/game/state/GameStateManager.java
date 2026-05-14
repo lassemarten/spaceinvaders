@@ -5,6 +5,7 @@ import main.java.de.game.entity.Invader;
 import main.java.de.game.entity.InvaderSwarm;
 import main.java.de.game.entity.Player;
 import main.java.de.game.input.InputHandler;
+import main.java.de.game.util.Constants;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -25,6 +26,7 @@ public class GameStateManager {
     private int          level;
     private int          score;
     private GameState.Phase phase;
+    private int          dash_cooldown;
 
     public GameStateManager(InputHandler input) {
         this.input = input;
@@ -57,6 +59,7 @@ public class GameStateManager {
         handleInvaderUpdate();
         checkCollisions();
         checkWinLoss();
+        updateCooldown();
     }
 
     public GameState getCurrentState() {
@@ -74,15 +77,17 @@ public class GameStateManager {
         }
 
         if (input.isLeft()) {
-            if (input.dash()){
+            if (input.dash() && dash_cooldown >= Constants.DASH_COOLDOWN){
                 player.dashLeft();
+                dash_cooldown = 0;
             }else {
                 player.moveLeft();
             }
         }
         if (input.isRight()){
-            if (input.dash()){
+            if (input.dash() && dash_cooldown >= Constants.DASH_COOLDOWN){
                 player.dashRight();
+                dash_cooldown = 0;
             }else {
                 player.moveRight();
             }
@@ -99,6 +104,10 @@ public class GameStateManager {
     private void updateBullets() {
         bullets.forEach(Bullet::update);
         bullets.removeIf(b -> !b.isActive());
+    }
+
+    private void updateCooldown() {
+        dash_cooldown += 1;
     }
 
     private void handleInvaderUpdate() {
@@ -155,6 +164,7 @@ public class GameStateManager {
     private void reset() {
         level   =1;
         player  = new Player();
+        dash_cooldown = Constants.DASH_COOLDOWN;
         swarm   = new InvaderSwarm(level);
         bullets = new ArrayList<>();
         score   = 0;

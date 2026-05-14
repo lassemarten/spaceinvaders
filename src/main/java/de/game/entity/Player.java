@@ -15,6 +15,7 @@ public class Player extends Entity {
             Constants.PLAYER_WIDTH,
             Constants.PLAYER_HEIGHT
         );
+
     }
 
     public void moveLeft() {

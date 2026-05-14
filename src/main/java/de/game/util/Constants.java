@@ -16,9 +16,10 @@ public final class Constants {
 
     // Spieler
     public static final int PLAYER_WIDTH   = 40;
-    public static final int PLAYER_HEIGHT  = 30;
+    public static final int PLAYER_HEIGHT  = 1000;
     public static final int PLAYER_SPEED   = 5;
     public static final int PLAYER_Y       = SCREEN_HEIGHT - 70;
+    public static final int DASH_COOLDOWN  = 30;
 
     // Kugeln
     public static final int BULLET_WIDTH        = 18;
