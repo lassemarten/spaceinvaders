@@ -63,7 +63,7 @@ public class GameStateManager {
     }
 
     public GameState getCurrentState() {
-        return new GameState(player, swarm, List.copyOf(bullets), level, score, phase);
+        return new GameState(player, swarm, List.copyOf(bullets), level, score, phase, dash_cooldown);
     }
 
     // -------------------------------------------------------------------------

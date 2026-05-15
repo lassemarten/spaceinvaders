@@ -16,7 +16,8 @@ public record GameState(
     List<Bullet> bullets,
     int          level,
     int          score,
-    Phase        phase
+    Phase        phase,
+    int          dash_cooldown
 ) {
     public enum Phase { PLAYING, GAME_OVER, WON, PAUSED, START }
 }

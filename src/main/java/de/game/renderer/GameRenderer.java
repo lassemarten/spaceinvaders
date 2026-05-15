@@ -46,6 +46,22 @@ public class GameRenderer {
         renderPlayer(g2, state.player());
         renderBullets(g2, state);
         renderHUD(g2, state);
+        renderDash(g2, state);
+    }
+
+    private void renderDash(Graphics2D g2, GameState state) {
+        int x = Constants.DASH_X, y = Constants.DASH_Y, w = 25, h = 75;
+        int fill_height;
+        g2.setColor(Color.WHITE);
+        fill_height =(int)(h * ((double) state.dash_cooldown()/Constants.DASH_COOLDOWN));
+        if (fill_height >= h) {
+            fill_height = h;
+            g2.fillRect(x, y, w, fill_height);
+        }else {
+            g2.fillRect(x, y, w, fill_height);
+            g2.setColor(Color.DARK_GRAY);
+            g2.fillRect(x, y + fill_height, w, h - fill_height);
+        }
     }
 
     private void renderInvaders(Graphics2D g2, GameState state) {
