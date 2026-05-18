@@ -8,11 +8,11 @@ import main.java.de.game.util.Constants;
  */
 public class Invader extends Entity {
 
-    protected final String farbe;
+    protected final String color;
 
-    public Invader(int x, int y, String farbe) {
+    public Invader(int x, int y, String color) {
         super(x, y, Constants.INVADER_WIDTH, Constants.INVADER_HEIGHT);
-        this.farbe = farbe;
+        this.color = color;
     }
 
     public Bullet shoot() {
@@ -21,7 +21,7 @@ public class Invader extends Entity {
         return new Bullet(bulletX, bulletY, Bullet.Owner.INVADER);
     }
 
-    public String getFarbe() {
-        return farbe;
+    public String getColor() {
+        return color;
     }
 }

@@ -11,7 +11,9 @@ import java.awt.*;
 
 public class GameRenderer {
 
-    private static final Color COLOR_INVADER  = new Color(80, 220, 80);
+    private static final Color COLOR_INVADERGreen  = new Color(80, 220, 80);
+    private static final Color COLOR_INVADERRed  = new Color(220, 80, 80);
+    private static final Color COLOR_INVADERBlue  = new Color(80, 80, 220);
     private static final Color COLOR_PLAYER   = Color.CYAN;
     private static final Color COLOR_BULLET_P = Color.YELLOW;
     private static final Color COLOR_BULLET_I = Color.RED;
@@ -84,10 +86,12 @@ public class GameRenderer {
     private void renderInvaders(Graphics2D g2, GameState state) {
         for (Invader inv : state.swarm().getActive()) {
             int x = inv.getX(), y = inv.getY(), w = inv.getWidth(), h = inv.getHeight();
-            if(inv.getFarbe().equals("green")) {
-                g2.setColor(COLOR_INVADER);
-            } else if (inv.getFarbe().equals("red")) {
-                g2.setColor(Color.RED);
+            if(inv.getColor().equals("green")) {
+                g2.setColor(COLOR_INVADERGreen);
+            } else if (inv.getColor().equals("red")) {
+                g2.setColor(COLOR_INVADERRed);
+            } else if (inv.getColor().equals("blue")) {
+                g2.setColor(COLOR_INVADERBlue);
             }
             g2.fillRoundRect(x, y, w, h, 8, 8);
 
