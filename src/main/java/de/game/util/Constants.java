@@ -21,8 +21,8 @@ public final class Constants {
     public static final int PLAYER_Y       = SCREEN_HEIGHT - 70;
 
     // Dash
-    public static final int DASH_COOLDOWN  = 250;
-    public static final int DASH_Y = SCREEN_HEIGHT - 175;
+    public static final int DASH_COOLDOWN  = 200;
+    public static final int DASH_Y = SCREEN_HEIGHT - 650;
     public static final int DASH_X = SCREEN_WIDTH - 80;
 
     // Kugeln
