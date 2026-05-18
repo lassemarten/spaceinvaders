@@ -40,7 +40,10 @@ public class GameRenderer {
     public void render(Graphics2D g2, GameState state) {
         enableAntialiasing(g2);
 
-        nameInput.setVisible(false); // immer erst ausblenden
+        if (nameInput.isVisible()) {
+            nameInput.setVisible(false);
+            SwingUtilities.invokeLater(() -> panel.requestFocusInWindow()); // Fokus zurück
+        }
 
         switch (state.phase()) {
             case PLAYING   -> renderGame(g2, state);
@@ -187,6 +190,9 @@ public class GameRenderer {
         int h = 30;
         nameInput.setBounds(cx - w / 2, y, w, h);
         nameInput.setVisible(true);
+
+        // Fokus ans Textfeld übergeben
+        SwingUtilities.invokeLater(() -> nameInput.requestFocusInWindow());
     }
 
     // Namen auslesen – aufrufbar vom GameStateManager o.ä.
