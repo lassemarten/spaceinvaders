@@ -4,7 +4,9 @@ import main.java.de.game.entity.Bullet;
 import main.java.de.game.entity.Invader;
 import main.java.de.game.entity.Player;
 import main.java.de.game.state.GameState;
+import main.java.de.game.state.GameStateManager;
 import main.java.de.game.util.Constants;
+import main.java.de.game.input.InputHandler;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,16 +26,28 @@ public class GameRenderer {
     private static final Font  FONT_SCORE     = new Font("Monospaced", Font.BOLD,  30);
     private static final Font  FONT_HINT      = new Font("Monospaced", Font.PLAIN, 18);
 
+    private final GameStateManager stateManager;
     private final JPanel panel;
     private final JTextField nameInput;
+    private final InputHandler input;
 
-    public GameRenderer(JPanel panel) {
-        this.panel = panel;
+    public GameRenderer(JPanel panel, InputHandler input, GameStateManager stateManager) {
+        this.panel        = panel;
+        this.input        = input;
+        this.stateManager = stateManager;
 
         nameInput = new JTextField(15);
         nameInput.setFont(FONT_HINT);
         nameInput.setHorizontalAlignment(JTextField.CENTER);
         nameInput.setVisible(false);
+
+        nameInput.addActionListener(e -> {
+            String name = nameInput.getText().trim();
+            if (!name.isEmpty()) {
+                input.setNameInputActive(false);
+                stateManager.startGame(name); // <-- Name auslesen + Spiel starten
+            }
+        });
 
         panel.setLayout(null);
         panel.add(nameInput);
@@ -190,13 +204,13 @@ public class GameRenderer {
     }
 
     private void drawCenteredInput(int cx, int y) {
-        int w = 200;
-        int h = 30;
+        int w = 200, h = 30;
         nameInput.setBounds(cx - w / 2, y, w, h);
-        nameInput.setVisible(true);
-
-        // Fokus ans Textfeld übergeben
-        SwingUtilities.invokeLater(() -> nameInput.requestFocusInWindow());
+        if (!nameInput.isVisible()) {
+            nameInput.setVisible(true);
+            input.setNameInputActive(true); // <-- Enter blockieren
+            SwingUtilities.invokeLater(() -> nameInput.requestFocusInWindow());
+        }
     }
 
     // Namen auslesen – aufrufbar vom GameStateManager o.ä.
