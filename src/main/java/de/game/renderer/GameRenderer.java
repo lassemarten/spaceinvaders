@@ -6,12 +6,9 @@ import main.java.de.game.entity.Player;
 import main.java.de.game.state.GameState;
 import main.java.de.game.util.Constants;
 
+import javax.swing.*;
 import java.awt.*;
 
-/**
- * Zustandsloser Renderer.
- * Bekommt einen GameState-Snapshot und zeichnet – keinerlei Spiellogik.
- */
 public class GameRenderer {
 
     private static final Color COLOR_INVADER  = new Color(80, 220, 80);
@@ -25,15 +22,32 @@ public class GameRenderer {
     private static final Font  FONT_SCORE     = new Font("Monospaced", Font.BOLD,  30);
     private static final Font  FONT_HINT      = new Font("Monospaced", Font.PLAIN, 18);
 
+    private final JPanel panel;
+    private final JTextField nameInput;
+
+    public GameRenderer(JPanel panel) {
+        this.panel = panel;
+
+        nameInput = new JTextField(15);
+        nameInput.setFont(FONT_HINT);
+        nameInput.setHorizontalAlignment(JTextField.CENTER);
+        nameInput.setVisible(false);
+
+        panel.setLayout(null);
+        panel.add(nameInput);
+    }
+
     public void render(Graphics2D g2, GameState state) {
         enableAntialiasing(g2);
 
+        nameInput.setVisible(false); // immer erst ausblenden
+
         switch (state.phase()) {
             case PLAYING   -> renderGame(g2, state);
-            case GAME_OVER -> renderOverlay(g2, "VERLOREN!", "ENTER zum Neustart", Color.RED, state.level(),   state.score());
-            case WON       -> renderOverlay(g2, "GEWONNEN!", "ENTER zum Neustart", Color.GREEN, state.level(),  state.score());  //Gibts Momentan nicht
-            case PAUSED    -> renderOverlay(g2, "PAUSIERT!","ENTER zum Fortsetzen", Color.WHITE, state.level(),   state.score());
-            case START     -> renderOverlay(g2, "HALLO SPIELER*IN", "ENTER zum Spielen", Color.PINK, 1,   0);
+            case GAME_OVER -> renderOverlay(g2, "VERLOREN!",  "ENTER zum Neustart",   Color.RED,   state.level(), state.score());
+            case WON       -> renderOverlay(g2, "GEWONNEN!",  "ENTER zum Neustart",   Color.GREEN, state.level(), state.score());
+            case PAUSED    -> renderOverlay(g2, "PAUSIERT!",  "ENTER zum Fortsetzen", Color.WHITE, state.level(), state.score());
+            case START     -> renderStartscreen(g2, "HALLO SPIELER*IN", "ENTER zum Spielen", Color.PINK);
         }
     }
 
@@ -53,11 +67,11 @@ public class GameRenderer {
         int x = Constants.DASH_X, y = Constants.DASH_Y, w = 25, h = 75;
         int fill_height;
         g2.setColor(Color.WHITE);
-        fill_height =(int)(h * ((double) state.dash_cooldown()/Constants.DASH_COOLDOWN));
+        fill_height = (int)(h * ((double) state.dash_cooldown() / Constants.DASH_COOLDOWN));
         if (fill_height >= h) {
             fill_height = h;
             g2.fillRect(x, y, w, fill_height);
-        }else {
+        } else {
             g2.fillRect(x, y, w, fill_height);
             g2.setColor(Color.DARK_GRAY);
             g2.fillRect(x, y + fill_height, w, h - fill_height);
@@ -67,18 +81,19 @@ public class GameRenderer {
     private void renderInvaders(Graphics2D g2, GameState state) {
         for (Invader inv : state.swarm().getActive()) {
             int x = inv.getX(), y = inv.getY(), w = inv.getWidth(), h = inv.getHeight();
-
-            g2.setColor(COLOR_INVADER);
+            if(inv.getFarbe().equals("green")) {
+                g2.setColor(COLOR_INVADER);
+            } else if (inv.getFarbe().equals("red")) {
+                g2.setColor(Color.RED);
+            }
             g2.fillRoundRect(x, y, w, h, 8, 8);
 
-            // Augen
             g2.setColor(Color.BLACK);
             g2.fillOval(x + 7,  y + 8, 9, 9);
             g2.fillOval(x + 24, y + 8, 9, 9);
 
-            // Mund (Zähne)
             g2.setColor(new Color(30, 150, 30));
-            g2.fillRect(x + 8, y + 20, 5, 5);
+            g2.fillRect(x + 8,  y + 20, 5, 5);
             g2.fillRect(x + 17, y + 20, 5, 5);
             g2.fillRect(x + 26, y + 20, 5, 5);
         }
@@ -88,13 +103,11 @@ public class GameRenderer {
         int x = player.getX(), y = player.getY();
         int w = player.getWidth();
 
-        // Rumpf
         g2.setColor(COLOR_PLAYER);
-        int[] px = { x + w / 2, x,     x + w };
-        int[] py = { y - 20,    y + 10, y + 10 };
+        int[] px = { x + w / 2, x,      x + w };
+        int[] py = { y - 20,    y + 10,  y + 10 };
         g2.fillPolygon(px, py, 3);
 
-        // Cockpit
         g2.setColor(new Color(0, 180, 255));
         g2.fillRect(x + 5, y, w - 10, 12);
     }
@@ -121,10 +134,25 @@ public class GameRenderer {
     }
 
     // -------------------------------------------------------------------------
-    // Overlay (Game Over / Won / PAUSED / START)
+    // Overlay
     // -------------------------------------------------------------------------
 
-    private void renderOverlay(Graphics2D g2, String title, String untertitle, Color titleColor,int level, int score) {
+    private void renderStartscreen(Graphics2D g2, String title, String untertitle, Color titleColor) {
+        int cx = Constants.SCREEN_WIDTH / 2;
+        int cy = Constants.SCREEN_HEIGHT / 2;
+
+        g2.setColor(titleColor);
+        g2.setFont(FONT_TITLE);
+        drawCentered(g2, title, cx, cy - 40);
+
+        g2.setColor(COLOR_HINT);
+        g2.setFont(FONT_HINT);
+        drawCentered(g2, untertitle, cx, cy + 110);
+
+        drawCenteredInput(cx, cy + 150);
+    }
+
+    private void renderOverlay(Graphics2D g2, String title, String untertitle, Color titleColor, int level, int score) {
         int cx = Constants.SCREEN_WIDTH / 2;
         int cy = Constants.SCREEN_HEIGHT / 2;
 
@@ -154,8 +182,20 @@ public class GameRenderer {
         g2.drawString(text, cx - fm.stringWidth(text) / 2, y);
     }
 
+    private void drawCenteredInput(int cx, int y) {
+        int w = 200;
+        int h = 30;
+        nameInput.setBounds(cx - w / 2, y, w, h);
+        nameInput.setVisible(true);
+    }
+
+    // Namen auslesen – aufrufbar vom GameStateManager o.ä.
+    public String getPlayerName() {
+        return nameInput.getText().trim();
+    }
+
     private void enableAntialiasing(Graphics2D g2) {
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,    RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,      RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
     }
 }

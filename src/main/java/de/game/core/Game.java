@@ -23,8 +23,9 @@ public class Game {
     public Game() {
         input        = new InputHandler();
         stateManager = new GameStateManager(input);
-        renderer     = new GameRenderer();
-        panel        = new GamePanel(stateManager, renderer, input);
+        panel        = new GamePanel(stateManager, input);  // renderer raus
+        renderer     = new GameRenderer(panel);             // panel rein
+        panel.setRenderer(renderer);                        // nachträglich setzen
         loop         = new GameLoop(panel);
         frame        = buildFrame();
     }

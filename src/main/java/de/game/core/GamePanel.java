@@ -15,12 +15,11 @@ import java.awt.*;
 public class GamePanel extends JPanel implements Updatable {
 
     private final GameStateManager stateManager;
-    private final GameRenderer     renderer;
+    private GameRenderer     renderer;
     private final InputHandler     input;
 
-    public GamePanel(GameStateManager stateManager, GameRenderer renderer, InputHandler input) {
+    public GamePanel(GameStateManager stateManager, InputHandler input) {
         this.stateManager = stateManager;
-        this.renderer     = renderer;
         this.input        = input;
 
         setPreferredSize(new Dimension(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT));
@@ -43,5 +42,9 @@ public class GamePanel extends JPanel implements Updatable {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         renderer.render((Graphics2D) g, stateManager.getCurrentState());
+    }
+
+    public void setRenderer(GameRenderer renderer) {
+        this.renderer = renderer;
     }
 }

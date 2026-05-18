@@ -30,7 +30,11 @@ public class InvaderSwarm {
             for (int col = 0; col < Constants.INVADER_COLS; col++) {
                 int x = Constants.INVADER_START_X + col * (Constants.INVADER_WIDTH  + Constants.INVADER_H_GAP);
                 int y = Constants.INVADER_START_Y + row * (Constants.INVADER_HEIGHT + Constants.INVADER_V_GAP);
-                invaders.add(new Invader(x, y));
+                if(row < 2) {
+                    invaders.add(new Invader(x, y, "green"));
+                }else {
+                    invaders.add(new Invader(x, y, "red"));
+                }
             }
         }
     }
