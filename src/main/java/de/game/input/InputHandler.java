@@ -15,6 +15,11 @@ public class InputHandler extends KeyAdapter {
     private boolean restartPressed; // true für einen Frame
     private boolean escapePressed;
     private boolean dashPressed;
+    private boolean nameInputActive = false;
+
+    public void setNameInputActive(boolean active) {
+        this.nameInputActive = active;
+    }
 
     @Override
     public void keyPressed(KeyEvent e) {
@@ -22,11 +27,12 @@ public class InputHandler extends KeyAdapter {
             case KeyEvent.VK_LEFT,  KeyEvent.VK_A -> left  = true;
             case KeyEvent.VK_RIGHT, KeyEvent.VK_D -> right = true;
             case KeyEvent.VK_SPACE  -> shootPressed   = true;
-            case KeyEvent.VK_ENTER  -> restartPressed = true;
+            case KeyEvent.VK_ENTER  -> { if (!nameInputActive) restartPressed = true; } // <--
             case KeyEvent.VK_ESCAPE -> escapePressed = true;
             case KeyEvent.VK_SHIFT  -> dashPressed = true;
         }
     }
+
 
     @Override
     public void keyReleased(KeyEvent e) {

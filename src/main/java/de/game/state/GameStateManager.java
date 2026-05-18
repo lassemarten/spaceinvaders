@@ -28,6 +28,16 @@ public class GameStateManager {
     private GameState.Phase phase;
     private int          dash_cooldown;
 
+    private String playerName = "";
+
+    public void startGame(String name) {
+        this.playerName = name;
+        System.out.println(playerName);
+        reset(); // setzt phase auf PLAYING
+    }
+
+    public String getPlayerName() { return playerName; }
+
     public GameStateManager(InputHandler input) {
         this.input = input;
         reset();
@@ -40,7 +50,6 @@ public class GameStateManager {
 
     public void update(long deltaMs) {
         if (phase == GameState.Phase.START) {
-            if(input.consumeRestart()) reset();
             return;
         }
         if (phase == GameState.Phase.GAME_OVER) {
