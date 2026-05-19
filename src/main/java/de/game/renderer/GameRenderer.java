@@ -85,7 +85,7 @@ public class GameRenderer {
     private void renderDash(Graphics2D g2, GameState state) {
         int x = Constants.DASH_X, y = Constants.DASH_Y, w = 25, h = 75;
         int fill_height;
-        g2.setColor(Color.WHITE);
+        g2.setColor(Color.YELLOW);
         fill_height = (int)(h * ((double) state.dash_cooldown() / Constants.DASH_COOLDOWN));
         if (fill_height >= h) {
             fill_height = h;

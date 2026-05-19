@@ -27,11 +27,11 @@ public class Player extends Entity {
     }
 
     public void dashLeft(){
-        x = Math.max(0, x - Constants.PLAYER_SPEED*20);
+        x = Math.max(0, x - Constants.PLAYER_SPEED*70);
     }
 
     public void dashRight(){
-        x = Math.min(Constants.SCREEN_WIDTH - width, x + Constants.PLAYER_SPEED*20);
+        x = Math.min(Constants.SCREEN_WIDTH - width, x + Constants.PLAYER_SPEED*70);
     }
 
     public Bullet shoot() {
