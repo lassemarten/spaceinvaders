@@ -1,5 +1,8 @@
 package main.java.de.game.util;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 /**
  * Zentrale Spielkonstanten – alle Magic Numbers an einem Ort.
  */
@@ -47,4 +50,9 @@ public final class Constants {
     // Punkte
     public static final int SCORE_PER_KILL = 10;
     public static final int SCORE_PER_BULLET_ON_BULLET = 3;
+
+    // Items
+    public static final String[] ITEM_LISTE = {"blitz", "shield"};
+
+
 }
