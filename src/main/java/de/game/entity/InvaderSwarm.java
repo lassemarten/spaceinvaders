@@ -33,22 +33,14 @@ public class InvaderSwarm {
                 int x = Constants.INVADER_START_X + col * (Constants.INVADER_WIDTH  + Constants.INVADER_H_GAP);
                 int y = Constants.INVADER_START_Y + row * (Constants.INVADER_HEIGHT + Constants.INVADER_V_GAP);
 
-                if(max_row < 4) {
-                    if (row < 2) {
-                        invaders.add(new Invader(x, y, "green"));
-                    } else {
+                if(row < max_row - 4){
+                    invaders.add(new Invader(x, y, "blue"));
+                }else if(row < max_row - 2) {
                         invaders.add(new Invader(x, y, "red"));
-                    }
+                }else {
+                    invaders.add(new Invader(x, y, "green"));
                 }
-                    else {
-                    if (row < 2) {
-                        invaders.add(new Invader(x, y, "blue"));
-                    } else if (row < 4) {
-                        invaders.add(new Invader(x, y, "red"));
-                    } else {
-                        invaders.add(new Invader(x, y, "green"));
-                    }
-                }
+
             }
         }
     }
