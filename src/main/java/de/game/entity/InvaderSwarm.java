@@ -28,16 +28,26 @@ public class InvaderSwarm {
         shootTick = 0;
         int max_row = (int) Math.floor(Constants.INVADER_ROWS + Math.pow((1.25 * (level-1)),0.5));
         if (max_row > 7) max_row = 7;
-        for (int row = 0; row < max_row; row++) { // Rechnung unschön verbaut
+        for (int row = 0; row < max_row; row++) {
             for (int col = 0; col < Constants.INVADER_COLS; col++) {
                 int x = Constants.INVADER_START_X + col * (Constants.INVADER_WIDTH  + Constants.INVADER_H_GAP);
                 int y = Constants.INVADER_START_Y + row * (Constants.INVADER_HEIGHT + Constants.INVADER_V_GAP);
-                if(row < 2) {
-                    invaders.add(new Invader(x, y, "red"));
-                }else if(row < 4){
-                    invaders.add(new Invader(x, y, "green"));
-                } else {
-                    invaders.add(new Invader(x, y, "blue"));
+
+                if(max_row < 4) {
+                    if (row < 2) {
+                        invaders.add(new Invader(x, y, "green"));
+                    } else {
+                        invaders.add(new Invader(x, y, "red"));
+                    }
+                }
+                    else {
+                    if (row < 2) {
+                        invaders.add(new Invader(x, y, "blue"));
+                    } else if (row < 4) {
+                        invaders.add(new Invader(x, y, "red"));
+                    } else {
+                        invaders.add(new Invader(x, y, "green"));
+                    }
                 }
             }
         }
