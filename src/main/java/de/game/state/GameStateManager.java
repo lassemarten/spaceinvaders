@@ -142,9 +142,22 @@ public class GameStateManager {
                 // Spieler-Kugel trifft Invasor
                 for (Invader inv : swarm.getActive()) {
                     if (b.collidesWith(inv)) {
+                        switch (inv.getColor()){
+                            case "green":
+                                score += main.java.de.game.util.Constants.SCORE_PER_KILL;
+                                break;
+                            case "red":
+                                score += (int) Math.floor(main.java.de.game.util.Constants.SCORE_PER_KILL * 1.25);
+                                break;
+                            case "blue":
+                                score += (int) Math.floor(main.java.de.game.util.Constants.SCORE_PER_KILL * 1.5);
+                                break;
+                            default:
+                                score += main.java.de.game.util.Constants.SCORE_PER_KILL;
+                                break;
+                        }
                         inv.setActive(false);
                         b.setActive(false);
-                        score += main.java.de.game.util.Constants.SCORE_PER_KILL;
                         break;
                     }
                 }
