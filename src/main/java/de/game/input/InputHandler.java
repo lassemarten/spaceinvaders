@@ -42,6 +42,12 @@ public class InputHandler extends KeyAdapter {
         }
     }
 
+    public void keyReset(){
+        restartPressed = false;
+        escapePressed = false;
+        dashPressed = false;
+    }
+
     public boolean isLeft()  { return left; }
     public boolean isRight() { return right; }
 

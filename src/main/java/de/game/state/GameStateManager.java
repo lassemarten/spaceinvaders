@@ -108,6 +108,7 @@ public class GameStateManager {
         if (input.consumeShoot() && noPlayerBullet) {
             bullets.add(player.shoot());
         }
+        input.keyReset();
     }
 
     private void updateBullets() {
