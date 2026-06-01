@@ -42,11 +42,11 @@ public class InvaderSwarm {
                 }
                     else {
                     if (row < 2) {
-                        invaders.add(new Invader(x, y, "blue"));
+                        invaders.add(new Invader(x, y, "green"));
                     } else if (row < 4) {
                         invaders.add(new Invader(x, y, "red"));
                     } else {
-                        invaders.add(new Invader(x, y, "green"));
+                        invaders.add(new Invader(x, y, "blue"));
                     }
                 }
             }
