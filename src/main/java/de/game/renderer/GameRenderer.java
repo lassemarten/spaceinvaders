@@ -4,7 +4,6 @@ import main.java.de.game.effect.ActiveEffect;
 import main.java.de.game.entity.Bullet;
 import main.java.de.game.entity.Invader;
 import main.java.de.game.entity.Player;
-import main.java.de.game.entity.items.BlitzItem;
 import main.java.de.game.entity.items.Item;
 import main.java.de.game.entity.items.ShieldItem;
 import main.java.de.game.state.GameState;
@@ -139,13 +138,7 @@ public class GameRenderer {
     private void renderItems(Graphics2D g2, List<Item> items) {
         for (Item item : items) {
             int x = item.getX(), y = item.getY(), s = Item.ITEM_WIDTH;
-            if (item instanceof BlitzItem) {
-                g2.setColor(COLOR_ITEM_BLITZ);
-                g2.fillRoundRect(x, y, s, s, 6, 6);
-                g2.setColor(Color.BLACK);
-                g2.setFont(FONT_ITEM);
-                g2.drawString("BLZ", x + 2, y + 16);
-            } else if (item instanceof ShieldItem) {
+            if (item instanceof ShieldItem) {
                 g2.setColor(COLOR_ITEM_SHIELD);
                 g2.fillRoundRect(x, y, s, s, 6, 6);
                 g2.setColor(Color.WHITE);

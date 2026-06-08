@@ -17,7 +17,6 @@ public class ItemFactory {
     public static Item createRandom() {
         int x = RANDOM.nextInt(Constants.SCREEN_WIDTH - Item.ITEM_WIDTH);
         return switch (RANDOM.nextInt(2)) {
-            case 0  -> new BlitzItem(x);
             default -> new ShieldItem(x);
         };
     }
