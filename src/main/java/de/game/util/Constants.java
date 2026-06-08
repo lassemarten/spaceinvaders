@@ -15,8 +15,8 @@ public final class Constants {
     public static final int FRAME_TIME_MS = 1000 / TARGET_FPS;
 
     // Spieler
-    public static final int PLAYER_WIDTH   = 40;
-    public static final int PLAYER_HEIGHT  = 1000;
+    public static final int PLAYER_WIDTH   = 64;
+    public static final int PLAYER_HEIGHT  = 220;
     public static final int PLAYER_SPEED   = 5;
     public static final int PLAYER_Y       = SCREEN_HEIGHT - 70;
 

@@ -7,6 +7,7 @@ import main.java.de.game.state.GameState;
 import main.java.de.game.state.GameStateManager;
 import main.java.de.game.util.Constants;
 import main.java.de.game.input.InputHandler;
+import java.awt.image.BufferedImage;
 
 import javax.swing.*;
 import java.awt.*;
@@ -122,15 +123,20 @@ public class GameRenderer {
 
     private void renderPlayer(Graphics2D g2, Player player) {
         int x = player.getX(), y = player.getY();
-        int w = player.getWidth();
+        int w = player.getWidth(), h = player.getHeight();
 
-        g2.setColor(COLOR_PLAYER);
-        int[] px = { x + w / 2, x,      x + w };
-        int[] py = { y - 20,    y + 10,  y + 10 };
-        g2.fillPolygon(px, py, 3);
-
-        g2.setColor(new Color(0, 180, 255));
-        g2.fillRect(x + 5, y, w - 10, 12);
+        BufferedImage sprite = player.getSprite();
+        if (sprite != null) {
+            g2.drawImage(sprite, x, y, w, h, null);
+        } else {
+            // Fallback: altes Dreieck
+            g2.setColor(COLOR_PLAYER);
+            int[] px = { x + w / 2, x,      x + w };
+            int[] py = { y - 20,    y + 10,  y + 10 };
+            g2.fillPolygon(px, py, 3);
+            g2.setColor(new Color(0, 180, 255));
+            g2.fillRect(x + 5, y, w - 10, 12);
+        }
     }
 
     private void renderBullets(Graphics2D g2, GameState state) {
