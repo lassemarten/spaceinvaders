@@ -1,12 +1,13 @@
 package Claude;
 
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Highscore {
     public  static void sendScore(String player, int score, double quote){
@@ -23,7 +24,7 @@ public class Highscore {
 
             //Daten senden
             OutputStream outputStream = conn.getOutputStream();
-            outputStream.write(json.getBytes());
+            outputStream.write(json.getBytes(java.nio.charset.StandardCharsets.UTF_8));
             outputStream.flush();
             outputStream.close();
 
@@ -40,7 +41,9 @@ public class Highscore {
         }
     }
 
-    public static void loadScore() {
+    public static List<HighscoreEintrag> loadScore() {
+        List<HighscoreEintrag> highscoreEintrags = new ArrayList<>();
+
         try {
            URL url2 = new URL("http://localhost:8080/highscores");
 
@@ -58,11 +61,12 @@ public class Highscore {
         }
         reader.close();
 
-        System.out.println("Highscores:");
             String json = response.toString();
 
         // [ ] entfernen
-            json = json.substring(1, json.length() - 1);
+            if (json.length() > 2) { //wenn zu kurz weiß ich nicht, was passiert, also lieber Abfrage eingebaut
+                json = json.substring(1, json.length() - 1);
+            }
 
             // einzelne Einträge trennen
             String[] entries = json.split("\\},\\{");
@@ -78,6 +82,9 @@ public class Highscore {
 
                 String name = getJsonValue(entry, "name");
                 int score = Integer.parseInt(getJsonValue(entry, "score"));
+                double quote = Double.parseDouble(getJsonValue(entry, "quote"));
+
+                highscoreEintrags.add(new HighscoreEintrag(name, score, quote));
 
                 System.out.println(rank + ". " + name + " - " + score + " Punkte");
 
@@ -86,6 +93,7 @@ public class Highscore {
     }  catch (IOException e){
         throw new RuntimeException(e);
     }
+        return highscoreEintrags;
     }
     public static String getJsonValue(String json, String key) {
         String search = "\"" + key + "\":";
