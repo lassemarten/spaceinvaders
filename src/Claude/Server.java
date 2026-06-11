@@ -15,7 +15,12 @@ public class Server {
         // Endpoint: /highscore
         server.createContext("/highscore", exchange -> {
 
-            if (exchange.getRequestMethod().equalsIgnoreCase("POST")) { //Lieber if not abfragen?!
+            if (!exchange.getRequestMethod().equalsIgnoreCase("POST")) { //Lieber if not abfragen?!
+                exchange.sendResponseHeaders(405, -1);
+                return;
+
+            } else {
+
                 String body = new String(exchange.getRequestBody().readAllBytes());//Liest alles, was der Client geschickt hat, und wandel es in Text um
 
                 //System.out.println("Empfangen: " + body);
@@ -39,8 +44,16 @@ public class Server {
 
                     stmt.executeUpdate();
                 } catch (Exception e) {
-                    throw new RuntimeException(e);
+                e.printStackTrace();
+
+                String response = "Fehler beim Speichern";
+                exchange.sendResponseHeaders(500, response.length());
+
+                try (OutputStream outputStream = exchange.getResponseBody()) {
+                    outputStream.write(response.getBytes(StandardCharsets.UTF_8));
                 }
+                return;
+            }
                 String response = "Gespeichert!";
 
                 exchange.getResponseHeaders().set("Content-Type", "text/plain");
@@ -55,7 +68,10 @@ public class Server {
             // GET → Scores abrufen
         server.createContext("/highscores", exchange -> {
 
-                    if (exchange.getRequestMethod().equalsIgnoreCase("GET")) { //Lieber if not abfragen?!
+                    if (!exchange.getRequestMethod().equalsIgnoreCase("GET")) { //Lieber if not abfragen?!
+                        exchange.sendResponseHeaders(405, -1);
+                        return;
+                    } else {
 
                        /* String json = "[{\"name\":\"MusterMax\",\"score\":200,\"quote\":0.3}," +  //Nur zum Testen, kommt weg, wenn vollständig mit MySQL
                                 "{\"name\":\"MusterMia\",\"score\":150,\"quote\":0.4}]";
@@ -96,8 +112,8 @@ public class Server {
                             String error = "Fehler beim Laden";
                             exchange.sendResponseHeaders(500, error.length());
 
-                            try (OutputStream os = exchange.getResponseBody()) {
-                                os.write(error.getBytes(StandardCharsets.UTF_8));
+                            try (OutputStream outputStream = exchange.getResponseBody()) {
+                                outputStream.write(error.getBytes(StandardCharsets.UTF_8));
                             }
                             return;
                         }

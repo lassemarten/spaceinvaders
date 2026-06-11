@@ -59,9 +59,53 @@ public class Highscore {
         reader.close();
 
         System.out.println("Highscores:");
-        System.out.println(response);
+            String json = response.toString();
+
+        // [ ] entfernen
+            json = json.substring(1, json.length() - 1);
+
+            // einzelne Einträge trennen
+            String[] entries = json.split("\\},\\{");
+
+            System.out.println("Highscores:");
+
+            int rank = 1;
+
+            for (String entry : entries) {
+
+                // Klammern wieder sauber machen
+                entry = entry.replace("{", "").replace("}", "");
+
+                String name = getJsonValue(entry, "name");
+                int score = Integer.parseInt(getJsonValue(entry, "score"));
+
+                System.out.println(rank + ". " + name + " - " + score + " Punkte");
+
+                rank++;
+            }
     }  catch (IOException e){
         throw new RuntimeException(e);
     }
+    }
+    public static String getJsonValue(String json, String key) {
+        String search = "\"" + key + "\":";
+
+        int start = json.indexOf(search);
+        if (start == -1) return null;
+
+        start += search.length();
+
+        // Prüfen, ob String oder Zahl
+        if (json.charAt(start) == '\"') {
+            start++;
+            int end = json.indexOf("\"", start);
+            return json.substring(start, end);
+        } else {
+            int end = json.indexOf(",", start);
+            if (end == -1) {
+                end = json.indexOf("}", start);
+            }
+            return json.substring(start, end);
+        }
     }
 }
