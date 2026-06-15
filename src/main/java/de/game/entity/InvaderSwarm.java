@@ -1,6 +1,6 @@
-package de.game.entity;
+package main.java.de.game.entity;
 
-import de.game.util.Constants;
+import main.java.de.game.util.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,19 +18,29 @@ public class InvaderSwarm {
     private int  dx        = Constants.INVADER_SPEED;
     private int  shootTick = 0;
 
-    public InvaderSwarm() {
-        reset();
+    public InvaderSwarm(int level) {
+        reset(level);
     }
 
-    public void reset() {
+    public void reset(int level) {
         invaders.clear();
         dx = Constants.INVADER_SPEED;
         shootTick = 0;
-        for (int row = 0; row < Constants.INVADER_ROWS; row++) {
+        int max_row = (int) Math.floor(Constants.INVADER_ROWS + Math.pow((1.25 * (level-1)),0.5));
+        if (max_row > 7) max_row = 7;
+        for (int row = 0; row < max_row; row++) {
             for (int col = 0; col < Constants.INVADER_COLS; col++) {
                 int x = Constants.INVADER_START_X + col * (Constants.INVADER_WIDTH  + Constants.INVADER_H_GAP);
                 int y = Constants.INVADER_START_Y + row * (Constants.INVADER_HEIGHT + Constants.INVADER_V_GAP);
-                invaders.add(new Invader(x, y));
+
+                if(row < max_row - 4){
+                    invaders.add(new Invader(x, y, "blue"));
+                }else if(row < max_row - 2) {
+                        invaders.add(new Invader(x, y, "red"));
+                }else {
+                    invaders.add(new Invader(x, y, "green"));
+                }
+
             }
         }
     }

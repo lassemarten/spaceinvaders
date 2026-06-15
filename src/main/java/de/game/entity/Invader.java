@@ -1,6 +1,6 @@
-package de.game.entity;
+package main.java.de.game.entity;
 
-import de.game.util.Constants;
+import main.java.de.game.util.Constants;
 
 /**
  * Ein einzelner Invasor.
@@ -8,13 +8,20 @@ import de.game.util.Constants;
  */
 public class Invader extends Entity {
 
-    public Invader(int x, int y) {
+    protected final String color;
+
+    public Invader(int x, int y, String color) {
         super(x, y, Constants.INVADER_WIDTH, Constants.INVADER_HEIGHT);
+        this.color = color;
     }
 
     public Bullet shoot() {
         int bulletX = x + width / 2 - Constants.BULLET_WIDTH / 2;
         int bulletY = y + height;
         return new Bullet(bulletX, bulletY, Bullet.Owner.INVADER);
+    }
+
+    public String getColor() {
+        return color;
     }
 }

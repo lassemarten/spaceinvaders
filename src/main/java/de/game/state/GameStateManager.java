@@ -1,10 +1,11 @@
-package de.game.state;
+package main.java.de.game.state;
 
-import de.game.entity.Bullet;
-import de.game.entity.Invader;
-import de.game.entity.InvaderSwarm;
-import de.game.entity.Player;
-import de.game.input.InputHandler;
+import main.java.de.game.entity.Bullet;
+import main.java.de.game.entity.Invader;
+import main.java.de.game.entity.InvaderSwarm;
+import main.java.de.game.entity.Player;
+import main.java.de.game.input.InputHandler;
+import main.java.de.game.util.Constants;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -22,13 +23,25 @@ public class GameStateManager {
     private Player       player;
     private InvaderSwarm swarm;
     private List<Bullet> bullets;
-    private int level;
+    private int          level;
     private int          score;
     private GameState.Phase phase;
+    private int          dash_cooldown;
+
+    private String playerName = "";
+
+    public void startGame(String name) {
+        this.playerName = name;
+        System.out.println(playerName);
+        reset(); // setzt phase auf PLAYING
+    }
+
+    public String getPlayerName() { return playerName; }
 
     public GameStateManager(InputHandler input) {
         this.input = input;
         reset();
+        phase = GameState.Phase.START;
     }
 
     // -------------------------------------------------------------------------
@@ -36,20 +49,30 @@ public class GameStateManager {
     // -------------------------------------------------------------------------
 
     public void update(long deltaMs) {
-        if (phase != GameState.Phase.PLAYING) {
+        if (phase == GameState.Phase.START) {
+            return;
+        }
+        if (phase == GameState.Phase.GAME_OVER) {
             if (input.consumeRestart()) reset();
             return;
         }
 
         handleInput();
+
+        if (phase == GameState.Phase.PAUSED) {
+            if (input.consumeRestart()) phase = GameState.Phase.PLAYING;
+            return;
+        }
+
         updateBullets();
         handleInvaderUpdate();
         checkCollisions();
         checkWinLoss();
+        updateCooldown();
     }
 
     public GameState getCurrentState() {
-        return new GameState(player, swarm, List.copyOf(bullets), level, score, phase);
+        return new GameState(player, swarm, List.copyOf(bullets), level, score, phase, dash_cooldown);
     }
 
     // -------------------------------------------------------------------------
@@ -57,8 +80,27 @@ public class GameStateManager {
     // -------------------------------------------------------------------------
 
     private void handleInput() {
-        if (input.isLeft())  player.moveLeft();
-        if (input.isRight()) player.moveRight();
+        if (input.consumeEscape()){
+            phase = GameState.Phase.PAUSED;
+            return;
+        }
+
+        if (input.isLeft()) {
+            if (input.dash() && dash_cooldown >= Constants.DASH_COOLDOWN){
+                player.dashLeft();
+                dash_cooldown = 0;
+            }else {
+                player.moveLeft();
+            }
+        }
+        if (input.isRight()){
+            if (input.dash() && dash_cooldown >= Constants.DASH_COOLDOWN){
+                player.dashRight();
+                dash_cooldown = 0;
+            }else {
+                player.moveRight();
+            }
+        }
 
         boolean noPlayerBullet = bullets.stream()
             .noneMatch(b -> b.getOwner() == Bullet.Owner.PLAYER && b.isActive());
@@ -66,11 +108,16 @@ public class GameStateManager {
         if (input.consumeShoot() && noPlayerBullet) {
             bullets.add(player.shoot());
         }
+        input.keyReset();
     }
 
     private void updateBullets() {
         bullets.forEach(Bullet::update);
         bullets.removeIf(b -> !b.isActive());
+    }
+
+    private void updateCooldown() {
+        dash_cooldown += 1;
     }
 
     private void handleInvaderUpdate() {
@@ -88,7 +135,7 @@ public class GameStateManager {
                     if(b.collidesWith(bul) && bul.getOwner() == Bullet.Owner.INVADER){
                         bul.setActive(false);
                         b.setActive(false);
-                        score += de.game.util.Constants.SCORE_PER_BULLET_ON_BULLET;
+                        score += main.java.de.game.util.Constants.SCORE_PER_BULLET_ON_BULLET;
                         break;
                     }
                 }
@@ -96,9 +143,22 @@ public class GameStateManager {
                 // Spieler-Kugel trifft Invasor
                 for (Invader inv : swarm.getActive()) {
                     if (b.collidesWith(inv)) {
+                        switch (inv.getColor()){
+                            case "green":
+                                score += main.java.de.game.util.Constants.SCORE_PER_KILL;
+                                break;
+                            case "red":
+                                score += (int) Math.floor(main.java.de.game.util.Constants.SCORE_PER_KILL * 1.25);
+                                break;
+                            case "blue":
+                                score += (int) Math.floor(main.java.de.game.util.Constants.SCORE_PER_KILL * 1.5);
+                                break;
+                            default:
+                                score += main.java.de.game.util.Constants.SCORE_PER_KILL;
+                                break;
+                        }
                         inv.setActive(false);
                         b.setActive(false);
-                        score += de.game.util.Constants.SCORE_PER_KILL;
                         break;
                     }
                 }
@@ -114,10 +174,10 @@ public class GameStateManager {
 
     private void checkWinLoss() {
         if (swarm.isEmpty()) {
-            player  = new Player();
-            swarm   = new InvaderSwarm();
-            bullets = new ArrayList<>();
             level  += 1;
+            player  = new Player();
+            swarm   = new InvaderSwarm(level);
+            bullets = new ArrayList<>();
             phase   = GameState.Phase.PLAYING;
         } else if (swarm.hasReachedBottom()) {
             phase = GameState.Phase.GAME_OVER;
@@ -125,10 +185,11 @@ public class GameStateManager {
     }
 
     private void reset() {
+        level   =1;
         player  = new Player();
-        swarm   = new InvaderSwarm();
+        dash_cooldown = Constants.DASH_COOLDOWN;
+        swarm   = new InvaderSwarm(level);
         bullets = new ArrayList<>();
-        level   = 1;
         score   = 0;
         phase   = GameState.Phase.PLAYING;
     }

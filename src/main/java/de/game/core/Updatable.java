@@ -1,4 +1,4 @@
-package de.game.core;
+package main.java.de.game.core;
 
 /**
  * Jedes Objekt das am Game Loop teilnimmt implementiert dieses Interface.

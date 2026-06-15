@@ -1,6 +1,6 @@
-package de.game.core;
+package main.java.de.game.core;
 
-import de.game.util.Constants;
+import main.java.de.game.util.Constants;
 
 /**
  * Fixed-Timestep Game Loop.

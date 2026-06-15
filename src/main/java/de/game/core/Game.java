@@ -1,12 +1,11 @@
-package de.game.core;
+package main.java.de.game.core;
 
-import de.game.input.InputHandler;
-import de.game.renderer.GameRenderer;
-import de.game.state.GameStateManager;
-import de.game.util.Constants;
+import main.java.de.game.input.InputHandler;
+import main.java.de.game.renderer.GameRenderer;
+import main.java.de.game.state.GameStateManager;
+import main.java.de.game.util.Constants;
 
 import javax.swing.*;
-import java.awt.*;
 
 /**
  * Herzstück des Spiels.
@@ -24,8 +23,9 @@ public class Game {
     public Game() {
         input        = new InputHandler();
         stateManager = new GameStateManager(input);
-        renderer     = new GameRenderer();
-        panel        = new GamePanel(stateManager, renderer, input);
+        panel        = new GamePanel(stateManager, input);  // renderer raus
+        renderer     = new GameRenderer(panel, input, stateManager);             // panel rein
+        panel.setRenderer(renderer);                        // nachträglich setzen
         loop         = new GameLoop(panel);
         frame        = buildFrame();
     }

@@ -1,6 +1,6 @@
-package de.game.entity;
+package main.java.de.game.entity;
 
-import de.game.util.Constants;
+import main.java.de.game.util.Constants;
 
 /**
  * Der Spieler.
@@ -15,6 +15,7 @@ public class Player extends Entity {
             Constants.PLAYER_WIDTH,
             Constants.PLAYER_HEIGHT
         );
+
     }
 
     public void moveLeft() {
@@ -23,6 +24,14 @@ public class Player extends Entity {
 
     public void moveRight() {
         x = Math.min(Constants.SCREEN_WIDTH - width, x + Constants.PLAYER_SPEED);
+    }
+
+    public void dashLeft(){
+        x = Math.max(0, x - Constants.PLAYER_SPEED*70);
+    }
+
+    public void dashRight(){
+        x = Math.min(Constants.SCREEN_WIDTH - width, x + Constants.PLAYER_SPEED*70);
     }
 
     public Bullet shoot() {
