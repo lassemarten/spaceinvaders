@@ -20,7 +20,7 @@ public class Player extends Entity {
         );
         try {
             sprite = ImageIO.read(
-                    Objects.requireNonNull(getClass().getResourceAsStream("/sprites/spaceShip.png"))
+                    Objects.requireNonNull(getClass().getResourceAsStream(Constants.TECTUR_PLAYER))
             );
         } catch (IOException | NullPointerException e) {
             sprite = null; // Fallback auf gezeichnetes Schiff

@@ -47,4 +47,11 @@ public final class Constants {
     // Punkte
     public static final int SCORE_PER_KILL = 10;
     public static final int SCORE_PER_BULLET_ON_BULLET = 3;
+
+    // Dateipfade
+    public static final String TECTUR_PLAYER = "/sprites/spaceShip.png";
+    public static final String TECTUR_INVADER_GREEN = "/sprites/invaderGreen.png";
+    public static final String TECTUR_INVADER_RED = "/sprites/invaderRed.png";
+    public static final String TECTUR_INVADER_BLUE = "/sprites/invaderBlue.png";
+    public static final String TECTUR_BACKGROUND = "/sprites/spaceBackground.jpg";
 }

@@ -7,7 +7,10 @@ import main.java.de.game.state.GameState;
 import main.java.de.game.state.GameStateManager;
 import main.java.de.game.util.Constants;
 import main.java.de.game.input.InputHandler;
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.Objects;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,16 +24,18 @@ public class GameRenderer {
     private static final Color COLOR_BULLET_P = Color.YELLOW;
     private static final Color COLOR_BULLET_I = Color.RED;
     private static final Color COLOR_HUD      = Color.WHITE;
-    private static final Color COLOR_HINT     = new Color(100, 100, 100);
+    private static final Color COLOR_HINT     = Color.LIGHT_GRAY;
     private static final Font  FONT_HUD       = new Font("Monospaced", Font.BOLD,  20);
     private static final Font  FONT_TITLE     = new Font("Monospaced", Font.BOLD,  60);
     private static final Font  FONT_SCORE     = new Font("Monospaced", Font.BOLD,  30);
-    private static final Font  FONT_HINT      = new Font("Monospaced", Font.PLAIN, 18);
+    private static final Font  FONT_HINT      = new Font("Monospaced", Font.BOLD, 18);
 
     private final GameStateManager stateManager;
     private final JPanel panel;
     private final JTextField nameInput;
     private final InputHandler input;
+    private BufferedImage background;
+
 
     public GameRenderer(JPanel panel, InputHandler input, GameStateManager stateManager) {
         this.panel        = panel;
@@ -52,10 +57,25 @@ public class GameRenderer {
 
         panel.setLayout(null);
         panel.add(nameInput);
+
+        try {
+            background = ImageIO.read(
+                    Objects.requireNonNull(getClass().getResourceAsStream(Constants.TECTUR_BACKGROUND))
+            );
+        } catch (IOException | NullPointerException e) {
+            background = null;
+        }
     }
 
     public void render(Graphics2D g2, GameState state) {
         enableAntialiasing(g2);
+
+        if (background != null) {
+            g2.drawImage(background, 0, 0, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, null);
+        } else {
+            g2.setColor(Color.BLACK);
+            g2.fillRect(0, 0, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
+        }
 
         if (nameInput.isVisible()) {
             nameInput.setVisible(false);

@@ -5,7 +5,7 @@ import main.java.de.game.core.Game;
 import javax.swing.*;
 
 /**
- * Einstiegspunkt der Anwendung.
+ * Einstiegspunkt der Anwendung.ad
  * Startet das Spiel auf dem Swing Event Dispatch Thread.
  */
 public class Main {

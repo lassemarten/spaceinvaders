@@ -40,9 +40,9 @@ public class Invader extends Entity {
 
     private static BufferedImage loadSprite(String color) {
         String filename = switch (color) {
-            case "red"  -> "/sprites/invaderRed.png";
-            case "blue" -> "/sprites/invaderBlue.png";
-            default     -> "/sprites/invaderGreen.png";
+            case "red"  -> Constants.TECTUR_INVADER_RED;
+            case "blue" -> Constants.TECTUR_INVADER_BLUE;
+            default     -> Constants.TECTUR_INVADER_GREEN;
         };
         try {
             return ImageIO.read(
