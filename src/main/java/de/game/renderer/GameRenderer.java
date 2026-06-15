@@ -101,23 +101,31 @@ public class GameRenderer {
     private void renderInvaders(Graphics2D g2, GameState state) {
         for (Invader inv : state.swarm().getActive()) {
             int x = inv.getX(), y = inv.getY(), w = inv.getWidth(), h = inv.getHeight();
-            if(inv.getColor().equals("green")) {
-                g2.setColor(COLOR_INVADERGreen);
-            } else if (inv.getColor().equals("red")) {
-                g2.setColor(COLOR_INVADERRed);
-            } else if (inv.getColor().equals("blue")) {
-                g2.setColor(COLOR_INVADERBlue);
+
+            BufferedImage sprite = inv.getSprite();
+            if (sprite != null) {
+                g2.drawImage(sprite, x, y, w, h, null);
+                continue;
             }
-            g2.fillRoundRect(x, y, w, h, 8, 8);
 
-            g2.setColor(Color.BLACK);
-            g2.fillOval(x + 7,  y + 8, 9, 9);
-            g2.fillOval(x + 24, y + 8, 9, 9);
-
-            g2.setColor(new Color(30, 150, 30));
-            g2.fillRect(x + 8,  y + 20, 5, 5);
-            g2.fillRect(x + 17, y + 20, 5, 5);
-            g2.fillRect(x + 26, y + 20, 5, 5);
+//            // Fallback: altes gezeichnetes Invader-Design
+//            if (inv.getFarbe().equals("green")) {
+//                g2.setColor(COLOR_INVADER);
+//            } else if (inv.getFarbe().equals("red")) {
+//                g2.setColor(Color.RED);
+//            } else {
+//                g2.setColor(Color.BLUE);
+//            }
+//            g2.fillRoundRect(x, y, w, h, 8, 8);
+//
+//            g2.setColor(Color.BLACK);
+//            g2.fillOval(x + 7,  y + 8, 9, 9);
+//            g2.fillOval(x + 24, y + 8, 9, 9);
+//
+//            g2.setColor(new Color(30, 150, 30));
+//            g2.fillRect(x + 8,  y + 20, 5, 5);
+//            g2.fillRect(x + 17, y + 20, 5, 5);
+//            g2.fillRect(x + 26, y + 20, 5, 5);
         }
     }
 
@@ -128,15 +136,15 @@ public class GameRenderer {
         BufferedImage sprite = player.getSprite();
         if (sprite != null) {
             g2.drawImage(sprite, x, y, w, h, null);
-        } else {
-            // Fallback: altes Dreieck
-            g2.setColor(COLOR_PLAYER);
-            int[] px = { x + w / 2, x,      x + w };
-            int[] py = { y - 20,    y + 10,  y + 10 };
-            g2.fillPolygon(px, py, 3);
-            g2.setColor(new Color(0, 180, 255));
-            g2.fillRect(x + 5, y, w - 10, 12);
-        }
+        } //else {
+//            // Fallback: altes Dreieck
+////            g2.setColor(COLOR_PLAYER);
+////            int[] px = { x + w / 2, x,      x + w };
+////            int[] py = { y - 20,    y + 10,  y + 10 };
+////            g2.fillPolygon(px, py, 3);
+////            g2.setColor(new Color(0, 180, 255));
+////            g2.fillRect(x + 5, y, w - 10, 12);
+////        }
     }
 
     private void renderBullets(Graphics2D g2, GameState state) {
