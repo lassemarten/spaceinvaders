@@ -201,7 +201,7 @@ public class GameStateManager {
 
         double quote = shotsFired > 0 ? (double) shotsHit / shotsFired : 0.0;
         Highscore.sendScore(playerName, score, quote);
-        System.out.println("Score gesendet: " + playerName + " | " + score + " Punkte | Quote: " + quote);
+        System.out.printf("Score gesendet: %s | %d Punkte | Quote: %.2f\n ", playerName, score, quote);
     }
 
     private void reset() {
