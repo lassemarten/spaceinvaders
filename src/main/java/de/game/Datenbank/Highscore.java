@@ -1,5 +1,8 @@
 package main.java.de.game.Datenbank;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import java.lang.reflect.Type;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -20,7 +23,9 @@ public class Highscore {
             conn.setDoOutput(true);
 
             //JSON erstellen
-            String json = String.format("{\"name\":\"%s\",\"score\":%d,\"quote\":%f}", player, score, quote);
+            Gson gson = new Gson();
+            HighscoreEintrag eintrag = new HighscoreEintrag(player, score, quote);
+            String json = gson.toJson(eintrag);
 
             //Daten senden
             OutputStream outputStream = conn.getOutputStream();
@@ -53,67 +58,59 @@ public class Highscore {
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
-            String inputLine;
             StringBuilder response = new StringBuilder();
+            String line;
 
-            while ((inputLine = reader.readLine()) != null) {
-                response.append(inputLine);
+            while ((line = reader.readLine()) != null) {
+                response.append(line);
             }
             reader.close();
 
             String json = response.toString();
 
-            // [ ] entfernen
-            if (json.length() > 2) { //wenn zu kurz weiß ich nicht, was passiert, also lieber Abfrage eingebaut
-                json = json.substring(1, json.length() - 1);
-            }
+            //Jetzt mit GSON, da auch so in der Vorlesung.
 
-            // einzelne Einträge trennen
-            String[] entries = json.split("\\},\\{");
+            Gson gson = new Gson();
 
+            Type listType =
+                    new TypeToken<List<HighscoreEintrag>>(){}.getType();
+
+            highscoreEintrags = gson.fromJson(json, listType);
+
+            // ✅ Ausgabe
             System.out.println("Highscores:");
 
             int rank = 1;
-
-            for (String entry : entries) {
-
-                // Klammern wieder sauber machen
-                entry = entry.replace("{", "").replace("}", "");
-
-                String name = getJsonValue(entry, "name");
-                int score = Integer.parseInt(getJsonValue(entry, "score"));
-                double quote = Double.parseDouble(getJsonValue(entry, "quote"));
-
-                highscoreEintrags.add(new HighscoreEintrag(name, score, quote));
-
-                System.out.println(rank + ". " + name + " - " + score + " Punkte");
-
+            for (HighscoreEintrag e : highscoreEintrags) {
+                System.out.println(rank + ". " + e.getName() + " - " + e.getScore() + " Punkte");
                 rank++;
             }
+
         }  catch (IOException e){
             throw new RuntimeException(e);
         }
         return highscoreEintrags;
     }
-    public static String getJsonValue(String json, String key) {
-        String search = "\"" + key + "\":";
 
-        int start = json.indexOf(search);
-        if (start == -1) return null;
-
-        start += search.length();
-
-        // Prüfen, ob String oder Zahl
-        if (json.charAt(start) == '\"') {
-            start++;
-            int end = json.indexOf("\"", start);
-            return json.substring(start, end);
-        } else {
-            int end = json.indexOf(",", start);
-            if (end == -1) {
-                end = json.indexOf("}", start);
-            }
-            return json.substring(start, end);
-        }
-    }
+//    public static String getJsonValue(String json, String key) {
+//        String search = "\"" + key + "\":";
+//
+//        int start = json.indexOf(search);
+//        if (start == -1) return null;
+//
+//        start += search.length();
+//
+//        // Prüfen, ob String oder Zahl
+//        if (json.charAt(start) == '\"') {
+//            start++;
+//            int end = json.indexOf("\"", start);
+//            return json.substring(start, end);
+//        } else {
+//            int end = json.indexOf(",", start);
+//            if (end == -1) {
+//                end = json.indexOf("}", start);
+//            }
+//            return json.substring(start, end);
+//        }
+//    }
 }

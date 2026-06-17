@@ -7,9 +7,11 @@ import main.java.de.game.state.GameState;
 import main.java.de.game.state.GameStateManager;
 import main.java.de.game.util.Constants;
 import main.java.de.game.input.InputHandler;
+import main.java.de.game.Datenbank.HighscoreEintrag;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
 public class GameRenderer {
 
@@ -192,6 +194,34 @@ public class GameRenderer {
         g2.setColor(COLOR_HINT);
         g2.setFont(FONT_HINT);
         drawCentered(g2, untertitle, cx, cy + 110);
+
+        // Highscores anzeigen
+        List<HighscoreEintrag> highscores = stateManager.getHighscores();
+
+        int y = cy + 150;
+
+        g2.setFont(FONT_HINT);
+
+        if (highscores != null && !highscores.isEmpty()) {
+
+            g2.setColor(Color.WHITE);
+            drawCentered(g2, "Highscores:", cx, y);
+            y += 25;
+
+            int rank = 1;
+
+            for (HighscoreEintrag entry : highscores) {
+
+                String text = rank + ". " + entry.name + " - " + entry.score;
+
+                drawCentered(g2, text, cx, y);
+
+                y += 25;
+                rank++;
+
+                if (rank > 10) break; // Top 10
+            }
+        }
     }
 
     // -------------------------------------------------------------------------

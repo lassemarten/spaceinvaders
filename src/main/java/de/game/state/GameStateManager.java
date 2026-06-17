@@ -34,6 +34,9 @@ public class GameStateManager {
     private int shotsFired = 0;
     private int shotsHit = 0;
 
+    //Für Highscore
+    private List<HighscoreEintrag> highscores = new ArrayList<>();
+
     private String playerName = "";
 
     public void startGame(String name) {
@@ -201,7 +204,14 @@ public class GameStateManager {
 
         double quote = shotsFired > 0 ? (double) shotsHit / shotsFired : 0.0;
         Highscore.sendScore(playerName, score, quote);
+
+        highscores = Highscore.loadScore();
+
         System.out.printf("Score gesendet: %s | %d Punkte | Quote: %.2f\n ", playerName, score, quote);
+    }
+
+    public List<HighscoreEintrag> getHighscores() {
+        return highscores;
     }
 
     private void reset() {
