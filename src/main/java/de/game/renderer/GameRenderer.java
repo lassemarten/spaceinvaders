@@ -212,9 +212,11 @@ public class GameRenderer {
 
             for (HighscoreEintrag entry : highscores) {
 
-                String text = rank + ". " + entry.name + " - " + entry.score;
+                String text = rank + ". " + entry.name + " - Punkte: " + entry.score + " Quote: " + entry.quote;
 
-                drawCentered(g2, text, cx, y);
+               // drawCentered(g2, text, cx, y);
+                int x = cx - 200; // feste linke Position, sonst sieht das chaotisch aus.
+                g2.drawString(text, x, y);
 
                 y += 25;
                 rank++;
