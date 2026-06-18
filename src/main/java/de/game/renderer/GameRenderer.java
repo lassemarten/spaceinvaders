@@ -177,7 +177,7 @@ public class GameRenderer {
 
     private void renderOverlay(Graphics2D g2, String title, String untertitle, Color titleColor, int level, int score) {
         int cx = Constants.SCREEN_WIDTH / 2;
-        int cy = Constants.SCREEN_HEIGHT / 2;
+        int cy = Constants.SCREEN_HEIGHT / 5;
 
         g2.setColor(titleColor);
         g2.setFont(FONT_TITLE);
