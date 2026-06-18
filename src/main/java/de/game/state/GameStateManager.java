@@ -1,5 +1,7 @@
 package main.java.de.game.state;
 
+import main.java.de.game.Datenbank.Highscore;
+import main.java.de.game.Datenbank.HighscoreEintrag;
 import main.java.de.game.entity.Bullet;
 import main.java.de.game.entity.Invader;
 import main.java.de.game.entity.InvaderSwarm;
@@ -27,6 +29,13 @@ public class GameStateManager {
     private int          score;
     private GameState.Phase phase;
     private int          dash_cooldown;
+
+    //Für die Trefferquote
+    private int shotsFired = 0;
+    private int shotsHit = 0;
+
+    //Für Highscore
+    private List<HighscoreEintrag> highscores = new ArrayList<>();
 
     private String playerName = "";
 
@@ -107,6 +116,7 @@ public class GameStateManager {
 
         if (input.consumeShoot() && noPlayerBullet) {
             bullets.add(player.shoot());
+            shotsFired++; //Schuss wird gezählt
         }
         input.keyReset();
     }
@@ -136,6 +146,7 @@ public class GameStateManager {
                         bul.setActive(false);
                         b.setActive(false);
                         score += main.java.de.game.util.Constants.SCORE_PER_BULLET_ON_BULLET;
+                        shotsHit++; //Treffer wird in Quote mitgezählt.
                         break;
                     }
                 }
@@ -159,13 +170,14 @@ public class GameStateManager {
                         }
                         inv.setActive(false);
                         b.setActive(false);
+                        shotsHit++; //Treffer gezählt
                         break;
                     }
                 }
             } else {
                 // Invasoren-Kugel trifft Spieler
                 if (b.collidesWith(player)) {
-                    phase = GameState.Phase.GAME_OVER;
+                    triggeredGameOver();
                 }
             }
         }
@@ -180,17 +192,37 @@ public class GameStateManager {
             bullets = new ArrayList<>();
             phase   = GameState.Phase.PLAYING;
         } else if (swarm.hasReachedBottom()) {
-            phase = GameState.Phase.GAME_OVER;
+            triggeredGameOver();
         }
     }
 
+    private void triggeredGameOver() {// Trigger GameOver-Methode
+        if(phase != GameState.Phase.PLAYING) {//Nur um zu verhindern, dass es möglicherweise doppelt aufgerufen wird
+            return;
+        }
+        phase = GameState.Phase.GAME_OVER;
+
+        double quote = shotsFired > 0 ? (double) shotsHit / shotsFired : 0.0;
+        Highscore.sendScore(playerName, score, quote);
+
+        highscores = Highscore.loadScore();
+
+        System.out.printf("Score gesendet: %s | %d Punkte | Quote: %.2f\n ", playerName, score, quote);
+    }
+
+    public List<HighscoreEintrag> getHighscores() {
+        return highscores;
+    }
+
     private void reset() {
-        level   =1;
+        level   = 1;
         player  = new Player();
         dash_cooldown = Constants.DASH_COOLDOWN;
         swarm   = new InvaderSwarm(level);
         bullets = new ArrayList<>();
         score   = 0;
         phase   = GameState.Phase.PLAYING;
+        shotsFired = 0;
+        shotsHit = 0;
     }
 }

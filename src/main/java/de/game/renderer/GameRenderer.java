@@ -11,9 +11,11 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Objects;
+import main.java.de.game.Datenbank.HighscoreEintrag;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
 public class GameRenderer {
 
@@ -209,7 +211,7 @@ public class GameRenderer {
 
     private void renderOverlay(Graphics2D g2, String title, String untertitle, Color titleColor, int level, int score) {
         int cx = Constants.SCREEN_WIDTH / 2;
-        int cy = Constants.SCREEN_HEIGHT / 2;
+        int cy = Constants.SCREEN_HEIGHT / 5;
 
         g2.setColor(titleColor);
         g2.setFont(FONT_TITLE);
@@ -226,6 +228,48 @@ public class GameRenderer {
         g2.setColor(COLOR_HINT);
         g2.setFont(FONT_HINT);
         drawCentered(g2, untertitle, cx, cy + 110);
+
+        // Highscores anzeigen
+        List<HighscoreEintrag> highscores = stateManager.getHighscores();
+
+        int y = cy + 150;
+        int xRank = cx - 200;
+        int xName = cx - 120;
+        int xScore = cx + 20;
+        int xQuote = cx + 120;
+
+
+
+        g2.setFont(FONT_HINT);
+
+        if (highscores != null && !highscores.isEmpty()) {
+
+            g2.setColor(Color.WHITE);
+            drawCentered(g2, "Highscores:", cx, y);
+            y += 25;
+
+            g2.drawString("Rang", xRank, y);
+            g2.drawString("Name", xName, y);
+            g2.drawString("Punkte", xScore, y);
+            g2.drawString("Quote", xQuote, y);
+
+            y += 25;
+
+            int rank = 1;
+
+            for (HighscoreEintrag entry : highscores) {
+
+                g2.drawString(rank + ".", xRank, y);
+                g2.drawString(entry.getName(), xName, y);
+                g2.drawString(String.valueOf(entry.getScore()), xScore, y);
+                g2.drawString(String.format("%.2f", entry.getQuote()), xQuote, y);
+
+                y += 25;
+                rank++;
+
+                if (rank > 10) break; // Top 10
+            }
+        }
     }
 
     // -------------------------------------------------------------------------
