@@ -199,6 +199,12 @@ public class GameRenderer {
         List<HighscoreEintrag> highscores = stateManager.getHighscores();
 
         int y = cy + 150;
+        int xRank = cx - 200;
+        int xName = cx - 120;
+        int xScore = cx + 20;
+        int xQuote = cx + 120;
+
+
 
         g2.setFont(FONT_HINT);
 
@@ -208,15 +214,21 @@ public class GameRenderer {
             drawCentered(g2, "Highscores:", cx, y);
             y += 25;
 
+            g2.drawString("Rang", xRank, y);
+            g2.drawString("Name", xName, y);
+            g2.drawString("Punkte", xScore, y);
+            g2.drawString("Quote", xQuote, y);
+
+            y += 25;
+
             int rank = 1;
 
             for (HighscoreEintrag entry : highscores) {
 
-                String text = rank + ". " + entry.name + " - Punkte: " + entry.score + " Quote: " + String.format("%.2f", entry.getQuote());
-
-               // drawCentered(g2, text, cx, y);
-                int x = cx - 200; // feste linke Position, sonst sieht das chaotisch aus.
-                g2.drawString(text, x, y);
+                g2.drawString(rank + ".", xRank, y);
+                g2.drawString(entry.getName(), xName, y);
+                g2.drawString(String.valueOf(entry.getScore()), xScore, y);
+                g2.drawString(String.format("%.2f", entry.getQuote()), xQuote, y);
 
                 y += 25;
                 rank++;
