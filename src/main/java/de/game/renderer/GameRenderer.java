@@ -160,13 +160,13 @@ public class GameRenderer {
             g2.drawImage(sprite, x, y, w, h, null);
         } //else {
 //            // Fallback: altes Dreieck
-////            g2.setColor(COLOR_PLAYER);
-////            int[] px = { x + w / 2, x,      x + w };
-////            int[] py = { y - 20,    y + 10,  y + 10 };
-////            g2.fillPolygon(px, py, 3);
-////            g2.setColor(new Color(0, 180, 255));
-////            g2.fillRect(x + 5, y, w - 10, 12);
-////        }
+//            g2.setColor(COLOR_PLAYER);
+//            int[] px = { x + w / 2, x,      x + w };
+//            int[] py = { y - 20,    y + 10,  y + 10 };
+//            g2.fillPolygon(px, py, 3);
+//            g2.setColor(new Color(0, 180, 255));
+//            g2.fillRect(x + 5, y, w - 10, 12);
+//        }
     }
 
     private void renderBullets(Graphics2D g2, GameState state) {
@@ -185,7 +185,7 @@ public class GameRenderer {
 
         g2.setColor(COLOR_HINT);
         g2.setFont(FONT_HINT);
-        String hint = "← → Bewegen   LEERTASTE Schießen   ESC Pausieren";
+        String hint = "SHIFT Dash   ← → Bewegen   LEERTASTE Schießen   ESC Pausieren";
         FontMetrics fm = g2.getFontMetrics();
         g2.drawString(hint, (Constants.SCREEN_WIDTH - fm.stringWidth(hint)) / 2, Constants.SCREEN_HEIGHT - 10);
     }
