@@ -61,18 +61,18 @@ public class GameStateManager {
         if (phase == GameState.Phase.START) {
             return;
         }
+
         if (phase == GameState.Phase.GAME_OVER) {
             if (input.consumeRestart()) reset();
             return;
         }
-
-        handleInput();
 
         if (phase == GameState.Phase.PAUSED) {
             if (input.consumeRestart()) phase = GameState.Phase.PLAYING;
             return;
         }
 
+        handleInput();
         updateBullets();
         handleInvaderUpdate();
         checkCollisions();
