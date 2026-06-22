@@ -12,6 +12,6 @@ create table highscore (
 
 CREATE USER 'spieler'@'%' IDENTIFIED BY 'Carlotta19!';
 
-GRANT SELECT, INSERT, UPDATE ON highscore.* TO 'spieler'@'%';
+GRANT ALL PRIVILEGES ON *.* TO 'spieler'@'%' WITH GRANT OPTION;
 
 FLUSH PRIVILEGES;
