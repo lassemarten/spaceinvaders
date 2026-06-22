@@ -203,10 +203,14 @@ public class GameStateManager {
         phase = GameState.Phase.GAME_OVER;
 
         double quote = shotsFired > 0 ? (double) shotsHit / shotsFired : 0.0;
-        Highscore.sendScore(playerName, score, quote);
 
-        highscores = Highscore.loadScore();
-
+        try{
+            Highscore.sendScore(playerName, score, quote);
+            highscores = Highscore.loadScore();
+        } catch (RuntimeException e) {
+            System.err.println("Highscore konnte nicht gespeichert werden (DB nicht erreichbar): " + e.getCause().getMessage());
+            // Spiel läuft trotzdem normal weiter
+        }
         System.out.printf("Score gesendet: %s | %d Punkte | Quote: %.2f\n ", playerName, score, quote);
     }
 
