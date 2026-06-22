@@ -10,7 +10,7 @@ import java.util.List;
 
 public class Server {
 
-    public static void main(String[] args) throws Exception {
+    public static void starteServer() throws Exception {
 
 
         // Server auf Port 8080 starten
