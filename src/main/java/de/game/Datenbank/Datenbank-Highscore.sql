@@ -9,3 +9,9 @@ create table highscore (
     quote double,
     level int,
     created_at timestamp default current_timestamp);
+
+CREATE USER 'spieler'@'%' IDENTIFIED BY 'Carlotta19!';
+
+GRANT SELECT, INSERT, UPDATE ON highscore.* TO 'spieler'@'%';
+
+FLUSH PRIVILEGES;
