@@ -17,6 +17,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
+// Die Klasse "GameRenderer" übernimmt die vollständige grafische Darstellung des Spiels.
+// Sie ist verantwortlich für das Rendern aller visuellen Spielelemente, einschließlich
+// Spieler, Gegner (Invaders), Projektile sowie der Benutzeroberfläche (HUD).
+// Abhängig vom aktuellen Spielzustand (z.B. Start, laufendes Spiel, Pause, Gewinn oder Verlust)
+// werden unterschiedliche Bildschirminhalte und Overlays angezeigt.
+// Darüber hinaus verarbeitet die Klasse die Eingabe des Spielernamens im Startbildschirm
+// und stellt Highscore-Daten dar, die über den GameStateManager bereitgestellt werden.
+// Die Darstellung erfolgt mithilfe der Java-2D-API innerhalb eines Swing-Panels.
+
 public class GameRenderer {
 
     private static final Color COLOR_INVADERGreen  = new Color(80, 220, 80);

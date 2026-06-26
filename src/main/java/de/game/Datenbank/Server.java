@@ -8,6 +8,13 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 
+// Diese Klasse startet einen einfachen HTTP-Server für das Spiel "Space Invaders".
+// Der Server stellt zwei Schnittstellen (Endpoints) bereit:
+// 1. POST /highscore → Speichert einen neuen Highscore in der Datenbank
+// 2. GET /highscores → Liefert die Top 10 Highscores als JSON zurück
+// Die Kommunikation erfolgt über HTTP, und die Daten werden mit JSON (über Gson) verarbeitet.
+// So kann das Spiel Highscores senden und abrufen.
+
 public class Server {
 
     public static void starteServer() throws Exception {
@@ -27,12 +34,6 @@ public class Server {
             try {
 
                 String body = new String(exchange.getRequestBody().readAllBytes());//Liest alles, was der Client geschickt hat, und wandel es in Text um
-
-                //System.out.println("Empfangen: " + body);
-
-//                String name = getJsonValue(body, "name");
-//                int score = Integer.parseInt(getJsonValue(body, "score"));
-//                double quote = Double.parseDouble(getJsonValue(body, "quote"));
 
                 Gson gson = new Gson();
                 HighscoreEintrag eintrag = gson.fromJson(body, HighscoreEintrag.class);
@@ -83,54 +84,6 @@ public class Server {
                 return;
             } else {
 
-                       /* String json = "[{\"name\":\"MusterMax\",\"score\":200,\"quote\":0.3}," +  //Nur zum Testen, kommt weg, wenn vollständig mit MySQL
-                                "{\"name\":\"MusterMia\",\"score\":150,\"quote\":0.4}]";
-*/
-               /* StringBuilder json = new StringBuilder();
-                json.append("[");
-
-                try (var conn = Datenbank.getConnection()) {
-
-                    String sql = "SELECT player, score, quote FROM highscore ORDER BY score DESC LIMIT 10";
-                    var stmt = conn.prepareStatement(sql);
-                    var res = stmt.executeQuery();
-
-                    boolean first = true;
-
-                    while (res.next()) {
-
-                        if (!first) {           // , soll nicht am Anfang oder Ende stehen
-                            json.append(",");
-                        }
-
-                        String name = res.getString("player");
-                        int score = res.getInt("score");
-                        double quote = res.getDouble("quote");
-
-                        json.append("{");
-                        json.append("\"name\":\"").append(name).append("\",");
-                        json.append("\"score\":").append(score).append(",");
-                        json.append("\"quote\":").append(quote);
-                        json.append("}");
-
-                        first = false;
-                    }
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-
-                    String error = "Fehler beim Laden";
-                    exchange.sendResponseHeaders(500, error.length());
-
-                    try (OutputStream outputStream = exchange.getResponseBody()) {
-                        outputStream.write(error.getBytes(StandardCharsets.UTF_8));
-                    }
-                    return;
-                }
-
-                json.append("]");
-*/
-
                 List<HighscoreEintrag> liste = new ArrayList<>();
 
                 try (var conn = Datenbank.getConnection()) {
@@ -179,25 +132,4 @@ public class Server {
         System.out.println("Server läuft auf http://localhost:8080");
     }
 
-//    public static String getJsonValue(String json, String key) {
-//        String search = "\"" + key + "\":";
-//
-//        int start = json.indexOf(search);
-//        if (start == -1) return null;
-//
-//        start += search.length();
-//
-//        // Prüfen, ob String oder Zahl
-//        if (json.charAt(start) == '\"') {
-//            start++;
-//            int end = json.indexOf("\"", start);
-//            return json.substring(start, end);
-//        } else {
-//            int end = json.indexOf(",", start);
-//            if (end == -1) {
-//                end = json.indexOf("}", start);
-//            }
-//            return json.substring(start, end);
-//        }
-//    }
 }

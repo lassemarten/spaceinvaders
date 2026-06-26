@@ -1,5 +1,7 @@
 package main.java.de.game.Datenbank;
 
+// Die Methode getConnection stellt eine Verbindung zur MySQL-Datenbank her, was die ganze Aufgabe dieser Klasse ist.
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 

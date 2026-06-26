@@ -1,3 +1,10 @@
+// Dieses SQL-Skript erstellt die benötigte Datenbank und Tabelle für das Spiel "Space Invaders".
+// Es legt eine Highscore-Tabelle an, in der Spielername, Punkte, Trefferquote,
+// Level und Zeitpunkt gespeichert werden.
+// Zusätzlich wird ein Datenbankbenutzer erstellt und mit allen nötigen Rechten ausgestattet,
+// damit das Spiel auf die Datenbank zugreifen und Highscores speichern kann.
+
+
 create database Spaceinvaders;
 
 use Spaceinvaders;
