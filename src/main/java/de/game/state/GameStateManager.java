@@ -17,7 +17,9 @@ import java.util.List;
  * Enthält die gesamte Spiellogik.
  * Liest Input, aktualisiert Entities, prüft Kollisionen und Gewinn-/Verlustbedingungen.
  * Produziert nach jedem Update einen neuen GameState-Snapshot für den Renderer.
+ * Verwaltet die Highscore-Erfassung und -Speicherung
  */
+
 public class GameStateManager {
 
     private final InputHandler input;

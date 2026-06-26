@@ -7,6 +7,12 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Objects;
 
+/**
+ * Die Klasse "Player" stellt die Spielfigur dar.
+ *Sie verwaltet Position, Bewegung (inkl. Dash), Schießen und das Laden des Sprites.
+ * Außerdem kann die Spielerfigur für einen Neustart zurückgesetzt werden.
+ */
+
 public class Player extends Entity {
 
     private BufferedImage sprite;
