@@ -1,0 +1,183 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+' =========================
+' CORE
+' =========================
+class Game{
+- panel: GamePanel
+- loop: GameLoop
+- input: InputHandler
+- stateManager: GameStateManager
+- renderer: GameRenderer
+
++ Game()
++ start(): void
+}
+class GameLoop{
+- updatable: Updatable
+
++ start(): void
++ stop(): void
+}
+class GamePanel{
+  - stateManager: GameStateManager
+  - renderer: GameRenderer
+  - input: InputHandler
+
+  + update(deltaMs: long): void
+  + render(): void
+}
+interface Updatable{
++ update(deltaMs: long)
++ render()
+}
+
+GameLoop --> Updatable
+GamePanel ..|> Updatable
+
+Game *-- GamePanel
+Game *-- GameLoop
+Game *-- GameRenderer
+Game *-- GameStateManager
+Game *-- InputHandler
+
+GamePanel --> GameStateManager
+GamePanel --> GameRenderer
+GamePanel --> InputHandler
+
+' =========================
+' STATE
+' =========================
+class GameState{
+  + player: Player
+  + swarm: InvaderSwarm
+  + bullets: List<Bullet>
+  + level: int
+  + score: int
+  + phase: Phase
+}
+class GameStateManager{
+- player: Player
+- swarm: InvaderSwarm
+- bullets: List<Bullet>
+- score: int
+- level: int
+- highscores: List<HighscoreEintrag>
+}
+
+GameStateManager *-- Player
+GameStateManager *-- InvaderSwarm
+GameStateManager *-- Bullet
+
+GameState *-- Player
+GameState *-- InvaderSwarm
+GameState *-- Bullet
+
+GameStateManager --> GameState
+
+enum Phase{
+  PLAYING
+  GAME_OVER
+  WON
+  PAUSED
+  START
+}
+GameState --> Phase
+
+' =========================
+' RENDERING & INPUT
+' =========================
+class GameRenderer{
+  - stateManager: GameStateManager
+  - input: InputHandler
+
+  + render(g2: Graphics2D, state: GameState): void
+}
+class InputHandler {
+  + consumeShoot(): boolean
+  + consumeRestart(): boolean
+  + consumeEscape(): boolean
+  + dash(): boolean
+}
+
+GameRenderer --> GameStateManager
+GameRenderer --> InputHandler
+
+InputHandler --|> KeyAdapter
+
+' =========================
+' ENTITIES
+' =========================
+abstract class Entity{
+- x: int
+- y: int
+- width: int
+- height: int
+- active boolean
+
++ collidesWith(other: Entity): boolean
+}
+class Player{
+
++ moveLeft(): void
++ moveRight(): void
+
++ shoot(): Bullet
+}
+class Invader{
+- color: String
+
++ shoot(): Bullet
+}
+class Bullet{
+- owner: Owner
+
++ update(): void
+}
+class InvaderSwarm{
+- invaders: List<Invader>
+
++ update(): Bullet
++ isEmpty(): boolean
+}
+
+Player --|> Entity
+Invader --|> Entity
+Bullet --|> Entity
+
+InvaderSwarm *-- Invader
+InvaderSwarm ..> Bullet
+Invader ..> Bullet
+
+enum Owner{
+PLAYER
+INVADER
+}
+Bullet --> Owner
+
+' =========================
+' DATABASE
+' =========================
+class Highscore{
++ sendScore(player: String, score: int, quote: double): void
++ loadScore(): List<HighscoreEintrag>
+}
+class HighscoreEintrag{
+- name: String
+- score: int
+- quote: double
+}
+class Server{
++ starteServer(): void
+}
+class Datenbank{
++ getConnection(): Connection
+}
+
+GameStateManager ..> Highscore
+Highscore --> HighscoreEintrag
+Server ..> Datenbank
+Server ..> HighscoreEintrag
+
+@enduml

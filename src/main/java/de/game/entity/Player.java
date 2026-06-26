@@ -9,7 +9,7 @@ import java.util.Objects;
 
 /**
  * Die Klasse "Player" stellt die Spielfigur dar.
- *Sie verwaltet Position, Bewegung (inkl. Dash), Schießen und das Laden des Sprites.
+ * Sie verwaltet Position, Bewegung (inkl. Dash), Schießen und das Laden des Sprites.
  * Außerdem kann die Spielerfigur für einen Neustart zurückgesetzt werden.
  */
 

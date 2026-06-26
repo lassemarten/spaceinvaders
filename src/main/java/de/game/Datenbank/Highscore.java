@@ -1,5 +1,9 @@
 package main.java.de.game.Datenbank;
 
+// Stellt die HTTP-Kommunikation mit dem Highscore-Server bereit.
+// Sendet Scores per POST als JSON und lädt Highscores per GET.
+// Verwendet Gson zur Serialisierung und Deserialisierung der Daten.
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
@@ -92,25 +96,4 @@ public class Highscore {
         return highscoreEintrags;
     }
 
-//    public static String getJsonValue(String json, String key) {
-//        String search = "\"" + key + "\":";
-//
-//        int start = json.indexOf(search);
-//        if (start == -1) return null;
-//
-//        start += search.length();
-//
-//        // Prüfen, ob String oder Zahl
-//        if (json.charAt(start) == '\"') {
-//            start++;
-//            int end = json.indexOf("\"", start);
-//            return json.substring(start, end);
-//        } else {
-//            int end = json.indexOf(",", start);
-//            if (end == -1) {
-//                end = json.indexOf("}", start);
-//            }
-//            return json.substring(start, end);
-//        }
-//    }
 }
